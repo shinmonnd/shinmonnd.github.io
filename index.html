@@ -19,44 +19,24 @@
     }
 
     /* ── INVISIBLE CLICK ZONES ───────────────── */
-    /* Items are not visible — they are hit areas over the background image items.
-       Popup reveals the image + info when tapped. */
     .item {
       position: absolute;
       cursor: pointer;
       z-index: 5;
       -webkit-tap-highlight-color: transparent;
-      border-radius: 50%;
-    }
-    /* Subtle ring on hover so desktop users can discover clickable areas */
-    .item::after {
-      content: '';
-      position: absolute;
-      inset: -6px;
-      border-radius: inherit;
-      border: 2px solid rgba(255,255,255,0);
-      transition: border-color 0.25s, box-shadow 0.25s;
-    }
-    .item:hover::after {
-      border-color: rgba(255,255,255,0.55);
-      box-shadow: 0 0 18px rgba(255,255,255,0.3);
     }
 
-    /* Hit zone sizes and positions matched to background image items */
-    /* (background cropped to 960px wide, 50% horizontal, cover on mobile) */
     #item-tea {
-      width: 130px; height: 130px;
-      top: 33%; left: 0%;
+      width: 140px; height: 140px;
+      top: 34%; left: 0%;
     }
     #item-cap {
-      width: 145px; height: 120px;
-      border-radius: 12px;
-      top: 26%; left: 58%;
+      width: 150px; height: 130px;
+      top: 29%; left: 57%;
     }
     #item-nb {
-      width: 180px; height: 120px;
-      border-radius: 10px;
-      top: 47%; left: 24%;
+      width: 200px; height: 140px;
+      top: 57%; left: 22%;
     }
 
     /* ── POPUP ───────────────────────────────── */
@@ -158,12 +138,26 @@
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
       if (!isOpen) {
         const rect = item.getBoundingClientRect();
-        const popupW = 220;
+        const popupW = 200;
         let left = rect.left + rect.width / 2;
         left = Math.max(popupW / 2 + 8, Math.min(left, window.innerWidth - popupW / 2 - 8));
         popup.style.left = left + 'px';
-        popup.style.top = (rect.top - 14) + 'px';
-        popup.style.transform = 'translateX(-50%) translateY(-100%)';
+
+        // Measure popup height before showing
+        popup.style.visibility = 'hidden';
+        popup.style.display = 'flex';
+        const popupH = popup.offsetHeight;
+        popup.style.display = 'none';
+        popup.style.visibility = '';
+
+        // Show above if there's room, otherwise below
+        if (rect.top - 14 >= popupH + 10) {
+          popup.style.top = (rect.top - 14) + 'px';
+          popup.style.transform = 'translateX(-50%) translateY(-100%)';
+        } else {
+          popup.style.top = (rect.bottom + 14) + 'px';
+          popup.style.transform = 'translateX(-50%)';
+        }
         popup.classList.add('show');
       }
     });
