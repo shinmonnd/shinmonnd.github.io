@@ -51,49 +51,51 @@
       position: fixed;
       z-index: 100;
       pointer-events: none;
-      width: 200px;
-      /* container is transparent — image floats, card sits below */
-      background: none;
-      border: none;
-      display: none;
+      width: 190px;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 0;
     }
     .popup.show {
       display: flex;
       animation: pop-in 0.18s ease-out forwards;
     }
-    /* The floating item image */
-    .popup-img {
-      width: 130px;
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.32));
+    /* Pin dot connector */
+    .popup-pin {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #b89c6e;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+      flex-shrink: 0;
+      margin-bottom: 6px;
     }
-    /* Text card below the image */
+    /* Sticky note card */
     .popup-card {
-      background: rgba(255, 253, 248, 0.97);
-      border: 1.5px solid rgba(180, 160, 120, 0.3);
-      border-radius: 12px;
-      padding: 10px 14px 12px;
+      background: #fefae8;
+      border-radius: 3px;
+      padding: 12px 14px 14px;
       width: 100%;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-      text-align: center;
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.14),
+        2px 3px 0 rgba(180,155,80,0.18);
+      transform: rotate(-1.2deg);
+      text-align: left;
     }
     .popup-card h3 {
       font-family: 'Playfair Display', serif;
       font-size: 13px;
       font-style: italic;
-      color: #1a2a1a;
-      margin-bottom: 5px;
+      color: #2a1f0a;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(160,130,60,0.2);
+      padding-bottom: 5px;
     }
     .popup-card p {
       font-family: 'Lato', sans-serif;
       font-size: 11px;
       color: #4a3828;
-      line-height: 1.65;
-      text-align: left;
+      line-height: 1.7;
     }
     /* ── SPARKLE INDICATORS ─────────────────── */
     .sparkle {
@@ -160,23 +162,23 @@
 
 <div class="scene">
 
-  <!-- Popups: floating image + info card below -->
+  <!-- Popups: pinned sticky note annotations -->
   <div class="popup" id="popup-tea">
-    <img src="images/laphet.png" class="popup-img" alt="laphet thoke">
+    <div class="popup-pin"></div>
     <div class="popup-card">
       <h3>🌿 Roots</h3>
       <p>Yangon-born, New York-based &amp; powered by laphet</p>
     </div>
   </div>
   <div class="popup" id="popup-cap">
-    <img src="images/cap.png" class="popup-img" alt="Columbia cap">
+    <div class="popup-pin"></div>
     <div class="popup-card">
       <h3>🎓 Learning</h3>
       <p>Columbia University, Class of 2021</p>
     </div>
   </div>
   <div class="popup" id="popup-nb">
-    <img src="images/notebook.png" class="popup-img" alt="notebook">
+    <div class="popup-pin"></div>
     <div class="popup-card">
       <h3>🌎 Work</h3>
       <p>NGO &amp; public policy — from USABC to HIAS, working at the intersection of community, advocacy, and social impact.</p>
