@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Great+Vibes&family=Pinyon+Script&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: url('images/background.jpg') left 60px / 100% auto no-repeat,
+        linear-gradient(to bottom, rgb(245,245,245) 7%, rgb(78,138,73) 73%, rgb(78,138,73) 80%, rgb(48,88,44) 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 30px 20px;
+      gap: 40px;
+    }
+    .option {
+      text-align: right;
+      background: rgba(255,253,248,0.82);
+      border-radius: 10px;
+      padding: 14px 18px;
+      backdrop-filter: blur(4px);
+    }
+    .label {
+      font-family: sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .name-alex   { font-family: 'Alex Brush', cursive;   font-size: 36px; color: #1a2a1a; }
+    .name-vibes  { font-family: 'Great Vibes', cursive;  font-size: 36px; color: #1a2a1a; }
+    .name-pinyon { font-family: 'Pinyon Script', cursive; font-size: 36px; color: #1a2a1a; }
+    .burmese     { font-family: 'Padauk', serif; font-size: 18px; color: #1a2a1a; margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+  <div class="option">
+    <div class="label">A — Alex Brush</div>
+    <div class="name-alex">Shinmon Nanda</div>
+    <div class="burmese">သျှင်မွန်နန္ဒ</div>
+  </div>
+
+  <div class="option">
+    <div class="label">B — Great Vibes</div>
+    <div class="name-vibes">Shinmon Nanda</div>
+    <div class="burmese">သျှင်မွန်နန္ဒ</div>
+  </div>
+
+  <div class="option">
+    <div class="label">C — Pinyon Script</div>
+    <div class="name-pinyon">Shinmon Nanda</div>
+    <div class="burmese">သျှင်မွန်နန္ဒ</div>
+  </div>
+
+</body>
+</html>
