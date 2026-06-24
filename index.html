@@ -48,24 +48,25 @@
     }
 
     /* ── BLANKET ─────────────────────────────── */
-    /* Fills bottom of screen as a diagonal slab, like it's lying on the grass */
+    /* Rectangular blanket lying flat on the grass, slightly angled */
     .blanket-wrap {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 62vh;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-4deg);
+      width: min(74vw, 560px);
       z-index: 3;
     }
 
     .blanket {
       width: 100%;
-      height: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 6px;
       position: relative;
       background: url('images/blanket.jpg') center / cover no-repeat;
-      /* diagonal top edge — enters low-left, rises to upper-right */
-      clip-path: polygon(0% 36%, 100% 0%, 100% 100%, 0% 100%);
-      box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+      box-shadow:
+        0 18px 52px rgba(0,0,0,0.26),
+        0 6px 18px rgba(0,0,0,0.14);
     }
 
     /* ── ITEMS ───────────────────────────────── */
@@ -87,10 +88,10 @@
     .item:hover  { transform: translateY(-9px) rotate(-2deg); }
     .item:active { transform: translateY(-4px) rotate(-1deg); }
 
-    /* Scattered across the visible blanket surface */
-    #item-tea  { bottom: 52%; left: 14%; }
-    #item-nb   { bottom: 28%; left: 40%; }
-    #item-mug  { bottom: 46%; right: 10%; }
+    /* Scattered naturally across the blanket */
+    #item-tea  { top: 18%; left: 10%; }
+    #item-nb   { top: 38%; left: 38%; }
+    #item-mug  { top: 14%; right: 9%; }
 
     .item-label {
       font-family: 'Lato', sans-serif;
@@ -154,8 +155,8 @@
     /* ── PLATE MAGNET ────────────────────────── */
     .plate-magnet {
       position: absolute;
-      top: 52%;
-      left: 22%;
+      top: 74%;
+      left: 8%;
       transform: rotate(-6deg);
       width: 100px;
       border-radius: 5px;
