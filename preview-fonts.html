@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Font Preview</title>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Great+Vibes&family=Pinyon+Script&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -14,14 +14,14 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      padding: 30px 20px;
-      gap: 40px;
+      padding: 40px 20px;
+      gap: 28px;
     }
     .option {
       text-align: right;
       background: rgba(255,253,248,0.82);
       border-radius: 10px;
-      padding: 14px 18px;
+      padding: 12px 16px;
       backdrop-filter: blur(4px);
     }
     .label {
@@ -30,32 +30,55 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #888;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .name-alex   { font-family: 'Alex Brush', cursive;   font-size: 36px; color: #1a2a1a; }
-    .name-vibes  { font-family: 'Great Vibes', cursive;  font-size: 36px; color: #1a2a1a; }
-    .name-pinyon { font-family: 'Pinyon Script', cursive; font-size: 36px; color: #1a2a1a; }
-    .burmese     { font-family: 'Padauk', serif; font-size: 18px; color: #1a2a1a; margin-top: 2px; }
+    .name { font-family: 'Great Vibes', cursive; font-size: 36px; }
+    .burmese { font-family: 'Padauk', serif; font-size: 18px; margin-top: 2px; }
+
+    .forest    { color: #1a2a1a; }
+    .moss      { color: #3a5c30; }
+    .sage      { color: #5a7a4a; }
+    .maroon    { color: #6b1a1a; }
+    .burgundy  { color: #7d2535; }
+    .wine      { color: #4a1525; }
   </style>
 </head>
 <body>
 
   <div class="option">
-    <div class="label">A — Alex Brush</div>
-    <div class="name-alex">Shinmon Nanda</div>
-    <div class="burmese">သျှင်မွန်နန္ဒ</div>
+    <div class="label">Green A — Forest (current)</div>
+    <div class="name forest">Shinmon Nanda</div>
+    <div class="burmese forest">သျှင်မွန်နန္ဒ</div>
   </div>
 
   <div class="option">
-    <div class="label">B — Great Vibes</div>
-    <div class="name-vibes">Shinmon Nanda</div>
-    <div class="burmese">သျှင်မွန်နန္ဒ</div>
+    <div class="label">Green B — Moss</div>
+    <div class="name moss">Shinmon Nanda</div>
+    <div class="burmese moss">သျှင်မွန်နန္ဒ</div>
   </div>
 
   <div class="option">
-    <div class="label">C — Pinyon Script</div>
-    <div class="name-pinyon">Shinmon Nanda</div>
-    <div class="burmese">သျှင်မွန်နန္ဒ</div>
+    <div class="label">Green C — Sage</div>
+    <div class="name sage">Shinmon Nanda</div>
+    <div class="burmese sage">သျှင်မွန်နန္ဒ</div>
+  </div>
+
+  <div class="option">
+    <div class="label">Maroon A — Deep Maroon</div>
+    <div class="name maroon">Shinmon Nanda</div>
+    <div class="burmese maroon">သျှင်မွန်နန္ဒ</div>
+  </div>
+
+  <div class="option">
+    <div class="label">Maroon B — Burgundy</div>
+    <div class="name burgundy">Shinmon Nanda</div>
+    <div class="burmese burgundy">သျှင်မွန်နန္ဒ</div>
+  </div>
+
+  <div class="option">
+    <div class="label">Maroon C — Wine</div>
+    <div class="name wine">Shinmon Nanda</div>
+    <div class="burmese wine">သျှင်မွန်နန္ဒ</div>
   </div>
 
 </body>
