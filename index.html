@@ -55,6 +55,7 @@
       flex-direction: column;
       align-items: center;
     }
+    #popup-nb { width: 250px; }
     .popup.show {
       display: flex;
       animation: pop-in 0.18s ease-out forwards;
@@ -192,18 +193,17 @@
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
       if (!isOpen) {
         const rect = item.getBoundingClientRect();
-        const popupW = 220;
+        // Measure popup dimensions before showing
+        popup.style.visibility = 'hidden';
+        popup.style.display = 'flex';
+        const popupW = popup.offsetWidth;
+        const popupH = popup.offsetHeight;
+        popup.style.display = '';
+        popup.style.visibility = '';
         let left = rect.left + rect.width / 2;
         left = Math.max(popupW / 2 + 8, Math.min(left, window.innerWidth - popupW / 2 - 8));
         popup.style.left = left + 'px';
         popup.style.transform = 'translateX(-50%)';
-
-        // Measure popup height before showing
-        popup.style.visibility = 'hidden';
-        popup.style.display = 'flex';
-        const popupH = popup.offsetHeight;
-        popup.style.display = '';
-        popup.style.visibility = '';
 
         // Always pop below the item, clamped to viewport
         const gap = 12;
