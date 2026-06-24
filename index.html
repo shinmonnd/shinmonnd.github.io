@@ -7,73 +7,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Padauk:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     body { width: 100vw; height: 100vh; overflow: hidden; }
 
-    /* ── SCENE ───────────────────────────────── */
+    /* ── SCENE: real grass photo ─────────────── */
     .scene {
       position: relative;
       width: 100%;
       height: 100%;
-      /* sky strip at top, lush grass fills the rest */
-      background:
-        repeating-linear-gradient(
-          92deg,
-          transparent 0px, transparent 5px,
-          rgba(0,0,0,0.018) 5px, rgba(0,0,0,0.018) 6px
-        ),
-        linear-gradient(to bottom,
-          #A8D4EC 0%,
-          #C0DFF5 14%,
-          #90C840 18%,
-          #72B030 28%,
-          #5A9E25 50%,
-          #488818 72%,
-          #3A7012 100%
-        );
-    }
-
-    /* ── CLOUDS ──────────────────────────────── */
-    .cloud {
-      position: absolute;
-      background: white;
-      border-radius: 50px;
-      opacity: 0.88;
-    }
-    .cloud::before, .cloud::after {
-      content: '';
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-    }
-
-    .cloud-1 {
-      width: 110px; height: 34px;
-      top: 3%; left: -160px;
-      animation: drift 30s linear infinite 2s;
-    }
-    .cloud-1::before { width: 55px; height: 55px; top: -27px; left: 18px; }
-    .cloud-1::after  { width: 40px; height: 40px; top: -17px; left: 56px; }
-
-    .cloud-2 {
-      width: 80px; height: 24px;
-      top: 8%; left: -120px;
-      animation: drift 46s linear infinite 14s;
-    }
-    .cloud-2::before { width: 40px; height: 40px; top: -20px; left: 10px; }
-    .cloud-2::after  { width: 30px; height: 30px; top: -13px; left: 38px; }
-
-    .cloud-3 {
-      width: 65px; height: 20px;
-      top: 2%; left: -100px;
-      animation: drift 58s linear infinite 28s;
-    }
-    .cloud-3::before { width: 32px; height: 32px; top: -16px; left: 8px; }
-    .cloud-3::after  { width: 25px; height: 25px; top: -11px; left: 30px; }
-
-    @keyframes drift {
-      from { transform: translateX(0); }
-      to   { transform: translateX(calc(100vw + 280px)); }
+      background: url('images/grass.jpg') center center / cover no-repeat;
     }
 
     /* ── NAME ────────────────────────────────── */
@@ -83,126 +24,83 @@
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
-      pointer-events: none;
-      z-index: 5;
+      z-index: 10;
       white-space: nowrap;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 20px;
+      padding: 10px 28px 12px;
+      pointer-events: none;
     }
     .name-area h1 {
       font-family: 'Dancing Script', cursive;
-      font-size: clamp(2.4rem, 5vw, 4.2rem);
-      color: #1C3828;
+      font-size: clamp(2rem, 4.5vw, 3.6rem);
+      color: #1C3818;
       font-weight: 700;
-      letter-spacing: 0.01em;
-      text-shadow: 0 2px 14px rgba(255,255,255,0.8);
+      text-shadow: 0 1px 8px rgba(255,255,255,0.6);
     }
     .name-area .burmese {
       display: block;
-      margin-top: 4px;
+      margin-top: 2px;
       font-family: 'Padauk', sans-serif;
-      font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-      color: #2A4E35;
+      font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+      color: #274030;
       font-weight: 400;
-      letter-spacing: 0.05em;
-      text-shadow: 0 1px 8px rgba(255,255,255,0.7);
-    }
-    .name-area .tagline {
-      margin-top: 8px;
-      font-family: 'Lato', sans-serif;
-      font-size: clamp(0.58rem, 1vw, 0.78rem);
-      color: #2C5040;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-weight: 300;
-    }
-
-    /* ── GRASS foreground blades container ───── */
-    .grass {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 30%;
-      z-index: 4;        /* in front of blanket edges */
-      pointer-events: none;
-    }
-
-    /* ── GRASS BLADES ────────────────────────── */
-    .blade {
-      position: absolute;
-      bottom: 0;
-      width: 3px;
-      border-radius: 2px 2px 0 0;
-      background: linear-gradient(to bottom, #5AB845, #2A6018);
-      transform-origin: bottom center;
-      animation: sway var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
-    }
-    @keyframes sway {
-      0%, 100% { transform: rotate(-4deg); }
-      50%       { transform: rotate(4deg); }
+      letter-spacing: 0.04em;
     }
 
     /* ── BLANKET ─────────────────────────────── */
     .blanket-wrap {
       position: absolute;
-      bottom: 18%;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: min(88vw, 580px);
+      transform: translate(-50%, -46%) rotate(-1.8deg);
+      width: min(92vw, 108vh);
       z-index: 3;
     }
+
+    /* Hidden SVG filter for fabric texture */
+    .fabric-filter { position: absolute; width: 0; height: 0; }
 
     .blanket {
       width: 100%;
       aspect-ratio: 3 / 2;
-      border-radius: 10px;
+      border-radius: 14px;
       position: relative;
-      background-color: #F5D06E;
-      background-image:
-        /* horizontal stripes: thin white, medium green, thin white, medium blue */
-        repeating-linear-gradient(
-          0deg,
-          transparent          0px,  transparent          28px,
-          rgba(255,255,255,0.5) 28px, rgba(255,255,255,0.5) 32px,
-          transparent          32px,  transparent          60px,
-          rgba(42,92,58,0.22)  60px,  rgba(42,92,58,0.22)  67px,
-          transparent          67px,  transparent          95px,
-          rgba(255,255,255,0.5) 95px, rgba(255,255,255,0.5) 99px,
-          transparent          99px,  transparent         127px,
-          rgba(90,136,184,0.22) 127px, rgba(90,136,184,0.22) 134px,
-          transparent          134px, transparent          162px
-        ),
-        /* vertical stripes: same rhythm */
+      /* Bold 3-tone gingham: where stripes cross they compound darker */
+      background:
         repeating-linear-gradient(
           90deg,
-          transparent          0px,  transparent          28px,
-          rgba(255,255,255,0.35) 28px, rgba(255,255,255,0.35) 32px,
-          transparent          32px,  transparent          60px,
-          rgba(42,92,58,0.18)  60px,  rgba(42,92,58,0.18)  67px,
-          transparent          67px,  transparent          95px,
-          rgba(255,255,255,0.35) 95px, rgba(255,255,255,0.35) 99px,
-          transparent          99px,  transparent         127px,
-          rgba(90,136,184,0.18) 127px, rgba(90,136,184,0.18) 134px,
-          transparent          134px, transparent          162px
-        );
+          rgba(42,92,58,0.52) 0px, rgba(42,92,58,0.52) 52px,
+          transparent 52px, transparent 104px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(42,92,58,0.52) 0px, rgba(42,92,58,0.52) 52px,
+          transparent 52px, transparent 104px
+        ),
+        #F5D06E;
+      filter: url(#fabric);
       box-shadow:
-        0 8px 30px rgba(0,0,0,0.13),
-        0 2px 8px rgba(0,0,0,0.07);
+        0 24px 60px rgba(0,0,0,0.28),
+        0 8px 24px rgba(0,0,0,0.18),
+        0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* Fringe strip */
+    /* Fringe */
     .blanket::after {
       content: '';
       position: absolute;
-      bottom: -9px;
-      left: 6px; right: 6px;
-      height: 9px;
+      bottom: -10px;
+      left: 8px; right: 8px;
+      height: 10px;
       background: repeating-linear-gradient(90deg,
-        #F5D06E 0px,   #F5D06E 6px,
-        #2A5C3A 6px,   #2A5C3A 12px,
-        #F5D06E 12px,  #F5D06E 18px,
-        #5A88B8 18px,  #5A88B8 24px,
-        #F5D06E 24px,  #F5D06E 30px,
-        #D4A820 30px,  #D4A820 36px,
-        #F5D06E 36px,  #F5D06E 42px
+        #F5D06E  0px, #F5D06E  7px,
+        #2A5C3A  7px, #2A5C3A 14px,
+        #F5D06E 14px, #F5D06E 21px,
+        #D4A820 21px, #D4A820 28px
       );
       border-radius: 0 0 4px 4px;
     }
@@ -211,18 +109,14 @@
     .items {
       position: absolute;
       inset: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-around;
-      padding: 28% 10% 16%;
     }
 
     .item {
-      position: relative;
+      position: absolute;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       cursor: pointer;
       transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
       -webkit-tap-highlight-color: transparent;
@@ -230,12 +124,17 @@
     .item:hover  { transform: translateY(-9px) rotate(-2deg); }
     .item:active { transform: translateY(-4px) rotate(-1deg); }
 
+    /* Scattered positions */
+    #item-tea  { bottom: 28%; left: 14%; }
+    #item-nb   { bottom: 16%; left: 43%; }
+    #item-mug  { bottom: 30%; right: 12%; }
+
     .item-label {
       font-family: 'Lato', sans-serif;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: #6B4F20;
+      color: #5A3C10;
       font-weight: 700;
       opacity: 0;
       transform: translateY(4px);
@@ -249,7 +148,7 @@
     .popup {
       display: none;
       position: absolute;
-      bottom: calc(100% + 16px);
+      bottom: calc(100% + 14px);
       left: 50%;
       transform: translateX(-50%);
       background: rgba(255, 253, 240, 0.97);
@@ -257,7 +156,7 @@
       border-radius: 12px;
       padding: 14px 18px;
       width: 205px;
-      box-shadow: 0 6px 22px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
       z-index: 50;
       pointer-events: none;
     }
@@ -278,7 +177,6 @@
       color: #5A4030;
       line-height: 1.68;
     }
-    /* tail */
     .popup::after {
       content: '';
       position: absolute;
@@ -296,16 +194,16 @@
     /* ── PLATE MAGNET ────────────────────────── */
     .plate-magnet {
       position: absolute;
-      top: 8%;
+      top: 10%;
       left: 50%;
       transform: translateX(-50%) rotate(-2deg);
-      width: 38%;
-      max-width: 170px;
+      width: 36%;
+      max-width: 180px;
       border-radius: 5px;
       border: none;
       box-shadow:
-        0 5px 16px rgba(0,0,0,0.25),
-        0 2px 5px rgba(0,0,0,0.13);
+        0 5px 16px rgba(0,0,0,0.28),
+        0 2px 5px rgba(0,0,0,0.15);
       cursor: pointer;
       display: block;
       transition:
@@ -315,31 +213,23 @@
     }
     .plate-magnet:hover {
       transform: translateX(-50%) rotate(0deg) translateY(-5px);
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.22),
-        0 3px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22), 0 3px 8px rgba(0,0,0,0.12);
     }
 
     /* ── LAPHET YAY ──────────────────────────── */
-    .tea {
-      position: relative;
-      width: 46px;
-    }
+    .tea { position: relative; width: 46px; }
     .tea-glass {
-      width: 36px;
-      height: 72px;
+      width: 36px; height: 72px;
       margin: 0 auto;
       border-radius: 2px 2px 9px 9px;
-      border: 2px solid rgba(175, 125, 45, 0.3);
+      border: 2px solid rgba(175,125,45,0.3);
       background: linear-gradient(to bottom,
-        #B87830 0%,   #C48838 55%,
-        #E8C870 55%,  #EDD080 72%,
-        #F5E8C4 72%,  #FAF0D5 100%
+        #B87830 0%, #C48838 55%,
+        #E8C870 55%, #EDD080 72%,
+        #F5E8C4 72%, #FAF0D5 100%
       );
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-    /* Glass shine */
     .tea-glass::before {
       content: '';
       position: absolute;
@@ -348,20 +238,18 @@
       background: rgba(255,255,255,0.3);
       border-radius: 3px;
     }
-    /* Condensation drops */
     .tea-glass::after {
       content: '';
       position: absolute;
       top: 22px; right: 5px;
       width: 3px; height: 9px;
       background: rgba(255,255,255,0.38);
-      border-radius: 50% 50% 50% 50%;
+      border-radius: 50%;
     }
     .tea-straw {
       position: absolute;
       width: 4px; height: 90px;
-      background: repeating-linear-gradient(
-        to bottom,
+      background: repeating-linear-gradient(to bottom,
         #FF9EC4 0px, #FF9EC4 8px,
         #FF78AE 8px, #FF78AE 16px
       );
@@ -373,119 +261,92 @@
     }
 
     /* ── NOTEBOOK ────────────────────────────── */
-    .notebook {
-      position: relative;
-      width: 58px;
-      height: 74px;
-    }
+    .notebook { position: relative; width: 58px; height: 74px; }
     .nb-cover {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       background: #2A5C3A;
       border-radius: 2px 5px 5px 2px;
       position: relative;
       box-shadow: -4px 4px 0 #1A3E24;
     }
     .nb-spine {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 9px;
-      background: #1A3E24;
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 9px; background: #1A3E24;
       border-radius: 2px 0 0 2px;
     }
     .nb-spirals {
-      position: absolute;
-      left: 4px; top: 6px; bottom: 6px;
-      width: 4px;
+      position: absolute; left: 4px; top: 6px; bottom: 6px; width: 4px;
       background: repeating-linear-gradient(to bottom,
-        #C8A840 0px, #C8A840 4px,
-        transparent 4px, transparent 8px
+        #C8A840 0px, #C8A840 4px, transparent 4px, transparent 8px
       );
     }
     .nb-pages {
-      position: absolute;
-      right: 2px; top: 4px; bottom: 4px;
-      width: 44%;
+      position: absolute; right: 2px; top: 4px; bottom: 4px; width: 44%;
       background: repeating-linear-gradient(to bottom,
-        #F8F4EC 0px, #F8F4EC 6px,
-        #DDD5C5 6px, #DDD5C5 7px
+        #F8F4EC 0px, #F8F4EC 6px, #DDD5C5 6px, #DDD5C5 7px
       );
       border-radius: 0 3px 3px 0;
     }
     .nb-title {
-      position: absolute;
-      top: 50%;
-      left: 12px; right: 20px;
+      position: absolute; top: 50%; left: 12px; right: 20px;
       transform: translateY(-50%);
       font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 7px;
-      color: rgba(255,255,255,0.88);
-      line-height: 1.55;
+      font-style: italic; font-size: 7px;
+      color: rgba(255,255,255,0.88); line-height: 1.55;
     }
 
     /* ── COLUMBIA MUG ────────────────────────── */
     .mug-wrap { position: relative; }
-
-    .steam {
-      display: flex;
-      gap: 5px;
-      justify-content: center;
-      margin-bottom: 3px;
-    }
+    .steam { display: flex; gap: 5px; justify-content: center; margin-bottom: 3px; }
     .steam span {
-      width: 3px;
-      background: rgba(155, 200, 235, 0.55);
-      border-radius: 2px;
+      width: 3px; background: rgba(155,200,235,0.55); border-radius: 2px;
       animation: steam-up 2.4s ease-in-out infinite;
     }
     .steam span:nth-child(1) { height: 18px; animation-delay: 0s; }
     .steam span:nth-child(2) { height: 13px; animation-delay: 0.45s; }
     .steam span:nth-child(3) { height: 16px; animation-delay: 0.9s; }
-
     @keyframes steam-up {
-      0%, 100% { transform: translateY(0)   scaleX(1);   opacity: 0.45; }
-      50%       { transform: translateY(-7px) scaleX(1.5); opacity: 0.7; }
+      0%,100% { transform: translateY(0) scaleX(1); opacity: 0.45; }
+      50% { transform: translateY(-7px) scaleX(1.5); opacity: 0.7; }
     }
-
     .mug {
       width: 54px; height: 60px;
       background: linear-gradient(148deg, #B8D8EE 0%, #7AADD0 48%, #5888B8 100%);
       border-radius: 4px 4px 10px 10px;
       position: relative;
-      box-shadow:
-        inset -4px 0 8px rgba(0,0,0,0.1),
-        inset 2px 0 5px rgba(255,255,255,0.22);
+      box-shadow: inset -4px 0 8px rgba(0,0,0,0.1), inset 2px 0 5px rgba(255,255,255,0.22);
     }
-    /* Handle */
     .mug::after {
       content: '';
-      position: absolute;
-      right: -14px; top: 11px;
+      position: absolute; right: -14px; top: 11px;
       width: 14px; height: 24px;
-      border: 3.5px solid #7AADD0;
-      border-left: none;
+      border: 3.5px solid #7AADD0; border-left: none;
       border-radius: 0 10px 10px 0;
     }
-    /* Columbia crown */
     .mug-crown {
-      position: absolute;
-      top: 9px; left: 50%;
+      position: absolute; top: 9px; left: 50%;
       transform: translateX(-50%);
       font-size: 19px;
       filter: brightness(0) invert(1);
-      opacity: 0.78;
-      user-select: none;
+      opacity: 0.78; user-select: none;
     }
   </style>
 </head>
 <body>
-<div class="scene">
 
-  <!-- Clouds -->
-  <div class="cloud cloud-1"></div>
-  <div class="cloud cloud-2"></div>
-  <div class="cloud cloud-3"></div>
+<!-- SVG fabric texture filter -->
+<svg class="fabric-filter" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="fabric" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72 0.72" numOctaves="4" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+      <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="scene">
 
   <!-- Name -->
   <div class="name-area">
@@ -493,22 +354,21 @@
     <span class="burmese">သျှင်မွန်နန္ဒ</span>
   </div>
 
-  <!-- Foreground grass blades (rendered by JS) -->
-  <div class="grass"></div>
-
   <!-- Blanket -->
   <div class="blanket-wrap">
     <div class="blanket">
+
       <img
         class="plate-magnet"
         src="images/yangon-plate.png"
         alt="Yangon 180199"
         title="Yangon, Burma"
       >
+
       <div class="items">
 
         <!-- Laphet Yay -->
-        <div class="item" data-popup="popup-tea">
+        <div class="item" id="item-tea" data-popup="popup-tea">
           <div class="popup" id="popup-tea">
             <h3>laphet yay ✨</h3>
             <p>Hi, I'm Shinmon — from Yangon, Burma. I care about justice, democracy, and the people who fight for both.</p>
@@ -521,7 +381,7 @@
         </div>
 
         <!-- Policy Notebook -->
-        <div class="item" data-popup="popup-nb">
+        <div class="item" id="item-nb" data-popup="popup-nb">
           <div class="popup" id="popup-nb">
             <h3>Policy &amp; Practice</h3>
             <p>NGO work · advocacy · research. Passionate about governance, civil society, and Southeast Asian affairs.</p>
@@ -538,7 +398,7 @@
         </div>
 
         <!-- Columbia Mug -->
-        <div class="item" data-popup="popup-mug">
+        <div class="item" id="item-mug" data-popup="popup-mug">
           <div class="popup" id="popup-mug">
             <h3>Columbia University</h3>
             <p>Graduate student at the School of International and Public Affairs. Based in New York City.</p>
@@ -561,40 +421,19 @@
 </div>
 
 <script>
-  // Toggle popups on item click
   document.querySelectorAll('.item').forEach(item => {
     item.addEventListener('click', e => {
       e.stopPropagation();
-      const id = item.dataset.popup;
-      const popup = document.getElementById(id);
+      const popup = document.getElementById(item.dataset.popup);
       const isOpen = popup.classList.contains('show');
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
       if (!isOpen) popup.classList.add('show');
     });
   });
 
-  // Close on outside click
   document.addEventListener('click', () => {
     document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
   });
-
-  // Dense foreground grass blades
-  const grassEl = document.querySelector('.grass');
-  const count = 90;
-  for (let i = 0; i < count; i++) {
-    const blade = document.createElement('div');
-    blade.className = 'blade';
-    const h = 22 + Math.random() * 38;   // taller blades
-    const w = 2 + Math.random() * 2;
-    const left = (i / count) * 100 + (Math.random() - 0.5) * 2;
-    const dur = 2 + Math.random() * 2.5;
-    const delay = Math.random() * 4;
-    blade.style.cssText =
-      `left:${left}%;height:${h}px;width:${w}px;` +
-      `--dur:${dur}s;--delay:${delay}s;` +
-      `filter:hue-rotate(${Math.floor(Math.random()*30)}deg) brightness(${0.7 + Math.random()*0.5});`;
-    grassEl.appendChild(blade);
-  }
 </script>
 </body>
 </html>
