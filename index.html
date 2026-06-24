@@ -17,15 +17,17 @@
       background: url('images/grass.jpg') center center / cover no-repeat;
     }
 
-    /* Sky fading into the grass photo */
+    /* Warm sky fading into the grass — golden hour to match the blanket */
     .scene::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 40%;
+      height: 45%;
       background: linear-gradient(to bottom,
-        #A8CEEA 0%,
-        #C2DDF5 45%,
+        #F5E4B0 0%,
+        #EDD88A 20%,
+        #D4C870 40%,
+        rgba(180,200,100,0.5) 70%,
         transparent 100%
       );
       z-index: 1;
@@ -67,58 +69,36 @@
     }
 
     /* ── BLANKET ─────────────────────────────── */
+    /* Fills bottom of screen as a diagonal slab, like it's lying on the grass */
     .blanket-wrap {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -46%) rotate(-1.8deg);
-      width: min(92vw, 108vh);
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 62vh;
       z-index: 3;
     }
 
-    /* Hidden SVG filter for fabric texture */
-    .fabric-filter { position: absolute; width: 0; height: 0; }
-
     .blanket {
       width: 100%;
-      aspect-ratio: 3 / 2;
-      border-radius: 14px;
+      height: 100%;
       position: relative;
-      /* Bold 3-tone gingham: where stripes cross they compound darker */
-      background:
-        repeating-linear-gradient(
-          90deg,
-          rgba(42,92,58,0.52) 0px, rgba(42,92,58,0.52) 52px,
-          transparent 52px, transparent 104px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          rgba(42,92,58,0.52) 0px, rgba(42,92,58,0.52) 52px,
-          transparent 52px, transparent 104px
-        ),
-        #F5D06E;
-      filter: url(#fabric);
-      box-shadow:
-        0 24px 60px rgba(0,0,0,0.28),
-        0 8px 24px rgba(0,0,0,0.18),
-        0 2px 6px rgba(0,0,0,0.1);
+      background: url('images/blanket.jpg') center / cover no-repeat;
+      /* diagonal top edge — enters low-left, rises to upper-right */
+      clip-path: polygon(0% 36%, 100% 0%, 100% 100%, 0% 100%);
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
     }
 
-    /* Fringe */
-    .blanket::after {
-      content: '';
+    /* Foreground grass tufts overlapping the blanket's diagonal edge */
+    .grass-edge {
       position: absolute;
-      bottom: -10px;
-      left: 8px; right: 8px;
-      height: 10px;
-      background: repeating-linear-gradient(90deg,
-        #F5D06E  0px, #F5D06E  7px,
-        #2A5C3A  7px, #2A5C3A 14px,
-        #F5D06E 14px, #F5D06E 21px,
-        #D4A820 21px, #D4A820 28px
-      );
-      border-radius: 0 0 4px 4px;
+      bottom: 58vh;
+      left: 0; right: 0;
+      height: 80px;
+      z-index: 5;
+      pointer-events: none;
     }
+    .grass-edge svg { width: 100%; height: 100%; }
 
     /* ── ITEMS ───────────────────────────────── */
     .items {
@@ -139,10 +119,10 @@
     .item:hover  { transform: translateY(-9px) rotate(-2deg); }
     .item:active { transform: translateY(-4px) rotate(-1deg); }
 
-    /* Scattered positions */
-    #item-tea  { bottom: 28%; left: 14%; }
-    #item-nb   { bottom: 16%; left: 43%; }
-    #item-mug  { bottom: 30%; right: 12%; }
+    /* Scattered across the visible blanket surface */
+    #item-tea  { bottom: 52%; left: 14%; }
+    #item-nb   { bottom: 28%; left: 40%; }
+    #item-mug  { bottom: 46%; right: 10%; }
 
     .item-label {
       font-family: 'Lato', sans-serif;
@@ -209,7 +189,7 @@
     /* ── PLATE MAGNET ────────────────────────── */
     .plate-magnet {
       position: absolute;
-      top: 10%;
+      bottom: 60%;
       left: 50%;
       transform: translateX(-50%) rotate(-2deg);
       width: 36%;
@@ -349,24 +329,20 @@
 </head>
 <body>
 
-<!-- SVG fabric texture filter -->
-<svg class="fabric-filter" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <filter id="fabric" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.72 0.72" numOctaves="4" result="noise"/>
-      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
-      <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
-      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
-    </filter>
-  </defs>
-</svg>
-
 <div class="scene">
 
   <!-- Name -->
   <div class="name-area">
     <h1>Shinmon Nanda</h1>
     <span class="burmese">သျှင်မွန်နန္ဒ</span>
+  </div>
+
+  <!-- Grass tufts overlapping the blanket's diagonal edge -->
+  <div class="grass-edge">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 Q80,20 160,55 Q240,80 320,35 Q400,5 480,45 Q560,75 640,30 Q720,0 800,40 Q880,70 960,25 Q1040,0 1120,38 Q1200,65 1280,30 Q1360,5 1440,42 L1440,80 L0,80 Z" fill="#4A9238"/>
+      <path d="M0,72 Q100,40 200,65 Q300,80 400,50 Q500,25 600,58 Q700,78 800,48 Q900,22 1000,55 Q1100,75 1200,45 Q1320,18 1440,55 L1440,80 L0,80 Z" fill="#3A7828"/>
+    </svg>
   </div>
 
   <!-- Blanket -->
