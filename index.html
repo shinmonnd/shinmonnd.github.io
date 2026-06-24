@@ -123,6 +123,7 @@
       pointer-events: none;
       z-index: 4;
     }
+    .name-block .name-email { pointer-events: auto; }
     .english-name {
       font-family: 'Great Vibes', cursive;
       font-size: 38px;
@@ -136,6 +137,16 @@
       color: #7d2535;
       display: block;
       margin-top: 2px;
+    }
+    .name-email {
+      font-family: 'EB Garamond', serif;
+      font-size: 11px;
+      color: #7d2535;
+      display: block;
+      margin-top: 5px;
+      letter-spacing: 0.04em;
+      opacity: 0.85;
+      text-decoration: none;
     }
     @keyframes pop-in {
       from { opacity: 0; transform: translateX(-50%) scale(0.92); }
@@ -171,6 +182,7 @@
   <div class="name-block">
     <span class="english-name">Shinmon Nanda</span>
     <span class="burmese-name">သျှင်မွန်နန္ဒ</span>
+    <a class="name-email" href="mailto:shinmon.nanda@gmail.com">shinmon.nanda@gmail.com</a>
   </div>
 
   <!-- Sparkle tap indicators -->
