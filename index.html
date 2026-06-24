@@ -176,48 +176,12 @@
       box-shadow: 0 10px 24px rgba(0,0,0,0.22), 0 3px 8px rgba(0,0,0,0.12);
     }
 
-    /* ── LAPHET YAY ──────────────────────────── */
-    .tea { position: relative; width: 46px; }
-    .tea-glass {
-      width: 36px; height: 72px;
-      margin: 0 auto;
-      border-radius: 2px 2px 9px 9px;
-      border: 2px solid rgba(175,125,45,0.3);
-      background: linear-gradient(to bottom,
-        #B87830 0%, #C48838 55%,
-        #E8C870 55%, #EDD080 72%,
-        #F5E8C4 72%, #FAF0D5 100%
-      );
-      position: relative; overflow: hidden;
-    }
-    .tea-glass::before {
-      content: '';
-      position: absolute;
-      top: 5px; left: 5px;
-      width: 5px; height: 28px;
-      background: rgba(255,255,255,0.3);
-      border-radius: 3px;
-    }
-    .tea-glass::after {
-      content: '';
-      position: absolute;
-      top: 22px; right: 5px;
-      width: 3px; height: 9px;
-      background: rgba(255,255,255,0.38);
-      border-radius: 50%;
-    }
-    .tea-straw {
-      position: absolute;
-      width: 4px; height: 90px;
-      background: repeating-linear-gradient(to bottom,
-        #FF9EC4 0px, #FF9EC4 8px,
-        #FF78AE 8px, #FF78AE 16px
-      );
-      border-radius: 2px;
-      top: -22px; right: 7px;
-      transform: rotate(5deg);
-      transform-origin: bottom center;
-      z-index: 2;
+    /* ── LAPHET THOKE ───────────────────────── */
+    .laphet-img {
+      width: 110px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.28));
     }
 
     /* ── NOTEBOOK ────────────────────────────── */
@@ -303,12 +267,9 @@
 
       <div class="items">
 
-        <!-- Laphet Yay -->
+        <!-- Laphet Thoke -->
         <div class="item" id="item-tea" data-popup="popup-tea">
-          <div class="tea">
-            <div class="tea-straw"></div>
-            <div class="tea-glass"></div>
-          </div>
+          <img class="laphet-img" src="images/laphet.png" alt="laphet thoke">
           <span class="item-label">about me</span>
         </div>
 
