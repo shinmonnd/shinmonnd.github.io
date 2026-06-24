@@ -251,38 +251,11 @@
     }
 
     /* ── NOTEBOOK ────────────────────────────── */
-    .notebook { position: relative; width: 58px; height: 74px; }
-    .nb-cover {
-      width: 100%; height: 100%;
-      background: #2A5C3A;
-      border-radius: 2px 5px 5px 2px;
-      position: relative;
-      box-shadow: -4px 4px 0 #1A3E24;
-    }
-    .nb-spine {
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 9px; background: #1A3E24;
-      border-radius: 2px 0 0 2px;
-    }
-    .nb-spirals {
-      position: absolute; left: 4px; top: 6px; bottom: 6px; width: 4px;
-      background: repeating-linear-gradient(to bottom,
-        #C8A840 0px, #C8A840 4px, transparent 4px, transparent 8px
-      );
-    }
-    .nb-pages {
-      position: absolute; right: 2px; top: 4px; bottom: 4px; width: 44%;
-      background: repeating-linear-gradient(to bottom,
-        #F8F4EC 0px, #F8F4EC 6px, #DDD5C5 6px, #DDD5C5 7px
-      );
-      border-radius: 0 3px 3px 0;
-    }
-    .nb-title {
-      position: absolute; top: 50%; left: 12px; right: 20px;
-      transform: translateY(-50%);
-      font-family: 'Playfair Display', serif;
-      font-style: italic; font-size: 7px;
-      color: rgba(255,255,255,0.88); line-height: 1.55;
+    .notebook-img {
+      width: 90px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
     }
 
     /* ── COLUMBIA MUG ────────────────────────── */
@@ -372,14 +345,7 @@
             <h3>Policy &amp; Practice</h3>
             <p>NGO work · advocacy · research. Passionate about governance, civil society, and Southeast Asian affairs.</p>
           </div>
-          <div class="notebook">
-            <div class="nb-cover">
-              <div class="nb-spine"></div>
-              <div class="nb-spirals"></div>
-              <div class="nb-title">Policy &amp;<br>Practice</div>
-              <div class="nb-pages"></div>
-            </div>
-          </div>
+          <img class="notebook-img" src="images/notebook.png" alt="notebook">
           <span class="item-label">my work</span>
         </div>
 
