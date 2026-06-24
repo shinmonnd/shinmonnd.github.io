@@ -9,72 +9,44 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body { width: 100vw; height: 100vh; overflow: hidden; }
 
-    /* ── SCENE: real grass photo ─────────────── */
+    /* ── SCENE ───────────────────────────────── */
     .scene {
       position: relative;
       width: 100%;
       height: 100%;
-      background: url('images/grass.jpg') center center / cover no-repeat;
+      background: url('images/background.jpg') 25% top / cover no-repeat;
+      background-color: #dde2e8;
     }
-
 
     /* ── NAME ────────────────────────────────── */
     .name-area {
       position: absolute;
-      top: 4%;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
+      top: 4.5%;
+      right: 6%;
+      text-align: right;
       z-index: 10;
       white-space: nowrap;
       pointer-events: none;
     }
     .name-area h1 {
       font-family: 'Dancing Script', cursive;
-      font-size: clamp(2rem, 4.5vw, 3.6rem);
-      color: #1C3818;
+      font-size: clamp(1.7rem, 4vw, 3.2rem);
+      color: #2a2a2a;
       font-weight: 700;
-      text-shadow: 0 2px 12px rgba(255,255,255,0.9), 0 0 30px rgba(255,255,240,0.7);
+      text-shadow: 0 2px 10px rgba(255,255,255,0.7);
     }
     .name-area .burmese {
       display: block;
       margin-top: 2px;
       font-family: 'Padauk', sans-serif;
-      font-size: clamp(0.85rem, 1.6vw, 1.15rem);
-      color: #274030;
+      font-size: clamp(0.75rem, 1.4vw, 1rem);
+      color: #444;
       font-weight: 400;
       letter-spacing: 0.04em;
-      text-shadow: 0 1px 8px rgba(255,255,255,0.8);
-    }
-
-    /* ── BLANKET ─────────────────────────────── */
-    /* Rectangular blanket lying flat on the grass, slightly angled */
-    .blanket-wrap {
-      position: absolute;
-      top: 52%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-4deg);
-      width: min(74vw, 560px);
-      z-index: 3;
-    }
-
-    .blanket {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      border-radius: 6px;
-      position: relative;
-      background: url('images/blanket.jpg') center / cover no-repeat;
-      box-shadow:
-        0 18px 52px rgba(0,0,0,0.26),
-        0 6px 18px rgba(0,0,0,0.14);
+      text-shadow: 0 1px 6px rgba(255,255,255,0.7);
     }
 
     /* ── ITEMS ───────────────────────────────── */
-    .items {
-      position: absolute;
-      inset: 0;
-    }
-
     .item {
       position: absolute;
       display: flex;
@@ -84,21 +56,22 @@
       cursor: pointer;
       transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
       -webkit-tap-highlight-color: transparent;
+      z-index: 5;
     }
     .item:hover  { transform: translateY(-9px) rotate(-2deg); }
     .item:active { transform: translateY(-4px) rotate(-1deg); }
 
-    /* Scattered naturally across the blanket */
-    #item-tea  { top: 18%; left: 10%; }
-    #item-nb   { top: 38%; left: 38%; }
-    #item-mug  { top: 14%; right: 9%; }
+    /* Positions matched to background image layout */
+    #item-tea { top: 34%; left: 2%;  }
+    #item-cap { top: 27%; left: 55%; }
+    #item-nb  { top: 48%; left: 23%; }
 
     .item-label {
       font-family: 'Lato', sans-serif;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: #5A3C10;
+      color: #3a3a3a;
       font-weight: 700;
       opacity: 0;
       transform: translateY(4px);
@@ -108,16 +81,16 @@
     }
     .item:hover .item-label { opacity: 1; transform: translateY(0); }
 
-    /* ── POPUP ── lives at scene level to escape clip-path ── */
+    /* ── POPUP ───────────────────────────────── */
     .popup {
       display: none;
       position: fixed;
-      background: rgba(255, 253, 240, 0.97);
-      border: 1.5px solid rgba(212, 168, 32, 0.38);
+      background: rgba(255, 253, 248, 0.97);
+      border: 1.5px solid rgba(180, 160, 120, 0.35);
       border-radius: 12px;
       padding: 14px 18px;
-      width: 205px;
-      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+      width: 210px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.13);
       z-index: 100;
       pointer-events: none;
     }
@@ -129,13 +102,13 @@
       font-family: 'Playfair Display', serif;
       font-size: 13.5px;
       font-style: italic;
-      color: #1C3828;
+      color: #1a2a1a;
       margin-bottom: 6px;
     }
     .popup p {
       font-family: 'Lato', sans-serif;
       font-size: 11.5px;
-      color: #5A4030;
+      color: #4a3828;
       line-height: 1.68;
     }
     .popup::after {
@@ -145,87 +118,35 @@
       transform: translateX(-50%);
       border: 7px solid transparent;
       border-bottom: none;
-      border-top-color: rgba(255, 253, 240, 0.97);
+      border-top-color: rgba(255, 253, 248, 0.97);
     }
     @keyframes pop-in {
       from { opacity: 0; }
       to   { opacity: 1; }
     }
 
-    /* ── PLATE MAGNET ────────────────────────── */
-    .plate-magnet {
-      position: absolute;
-      top: 74%;
-      left: 8%;
-      transform: rotate(-6deg);
-      width: 100px;
-      border-radius: 5px;
-      border: none;
-      box-shadow:
-        0 5px 16px rgba(0,0,0,0.28),
-        0 2px 5px rgba(0,0,0,0.15);
-      cursor: pointer;
-      display: block;
-      transition:
-        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.3s ease;
-      z-index: 5;
-    }
-    .plate-magnet:hover {
-      transform: rotate(-2deg) translateY(-4px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.22), 0 3px 8px rgba(0,0,0,0.12);
-    }
-
     /* ── LAPHET THOKE ───────────────────────── */
     .laphet-img {
-      width: 110px;
+      width: 115px;
       height: auto;
       display: block;
-      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.28));
+      filter: drop-shadow(0 5px 12px rgba(0,0,0,0.3));
     }
 
     /* ── NOTEBOOK ────────────────────────────── */
     .notebook-img {
-      width: 180px;
+      width: 175px;
       height: auto;
       display: block;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.28));
     }
 
-    /* ── COLUMBIA MUG ────────────────────────── */
-    .mug-wrap { position: relative; }
-    .steam { display: flex; gap: 5px; justify-content: center; margin-bottom: 3px; }
-    .steam span {
-      width: 3px; background: rgba(155,200,235,0.55); border-radius: 2px;
-      animation: steam-up 2.4s ease-in-out infinite;
-    }
-    .steam span:nth-child(1) { height: 18px; animation-delay: 0s; }
-    .steam span:nth-child(2) { height: 13px; animation-delay: 0.45s; }
-    .steam span:nth-child(3) { height: 16px; animation-delay: 0.9s; }
-    @keyframes steam-up {
-      0%,100% { transform: translateY(0) scaleX(1); opacity: 0.45; }
-      50% { transform: translateY(-7px) scaleX(1.5); opacity: 0.7; }
-    }
-    .mug {
-      width: 54px; height: 60px;
-      background: linear-gradient(148deg, #B8D8EE 0%, #7AADD0 48%, #5888B8 100%);
-      border-radius: 4px 4px 10px 10px;
-      position: relative;
-      box-shadow: inset -4px 0 8px rgba(0,0,0,0.1), inset 2px 0 5px rgba(255,255,255,0.22);
-    }
-    .mug::after {
-      content: '';
-      position: absolute; right: -14px; top: 11px;
-      width: 14px; height: 24px;
-      border: 3.5px solid #7AADD0; border-left: none;
-      border-radius: 0 10px 10px 0;
-    }
-    .mug-crown {
-      position: absolute; top: 9px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 19px;
-      filter: brightness(0) invert(1);
-      opacity: 0.78; user-select: none;
+    /* ── COLUMBIA CAP ────────────────────────── */
+    .cap-img {
+      width: 135px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 5px 12px rgba(0,0,0,0.32));
     }
   </style>
 </head>
@@ -233,67 +154,42 @@
 
 <div class="scene">
 
-  <!-- Name -->
+  <!-- Name overlays the image's "Shinmon Nanda" text -->
   <div class="name-area">
     <h1>Shinmon Nanda</h1>
     <span class="burmese">သျှင်မွန်နန္ဒ</span>
   </div>
 
-  <!-- Popups at scene level so clip-path doesn't hide them -->
+  <!-- Popups -->
   <div class="popup" id="popup-tea">
-    <h3>laphet yay ✨</h3>
+    <h3>laphet thoke ✨</h3>
     <p>Hi, I'm Shinmon — from Yangon, Burma. I care about justice, democracy, and the people who fight for both.</p>
   </div>
   <div class="popup" id="popup-nb">
     <h3>Policy &amp; Practice</h3>
     <p>NGO work · advocacy · research. Passionate about governance, civil society, and Southeast Asian affairs.</p>
   </div>
-  <div class="popup" id="popup-mug">
+  <div class="popup" id="popup-cap">
     <h3>Columbia University</h3>
     <p>Graduate student at the School of International and Public Affairs. Based in New York City.</p>
   </div>
 
-  <!-- Plate in the grass -->
-  <img
-    class="plate-magnet"
-    src="images/yangon-plate.png"
-    alt="Yangon 180199"
-    title="Yangon, Burma"
-  >
+  <!-- Laphet Thoke — about me -->
+  <div class="item" id="item-tea" data-popup="popup-tea">
+    <img class="laphet-img" src="images/laphet.png" alt="laphet thoke">
+    <span class="item-label">about me</span>
+  </div>
 
-  <!-- Blanket -->
-  <div class="blanket-wrap">
-    <div class="blanket">
+  <!-- Columbia Cap — columbia -->
+  <div class="item" id="item-cap" data-popup="popup-cap">
+    <img class="cap-img" src="images/cap.png" alt="Columbia cap">
+    <span class="item-label">columbia</span>
+  </div>
 
-      <div class="items">
-
-        <!-- Laphet Thoke -->
-        <div class="item" id="item-tea" data-popup="popup-tea">
-          <img class="laphet-img" src="images/laphet.png" alt="laphet thoke">
-          <span class="item-label">about me</span>
-        </div>
-
-        <!-- Policy Notebook -->
-        <div class="item" id="item-nb" data-popup="popup-nb">
-          <img class="notebook-img" src="images/notebook.png" alt="notebook">
-          <span class="item-label">my work</span>
-        </div>
-
-        <!-- Columbia Mug -->
-        <div class="item" id="item-mug" data-popup="popup-mug">
-          <div class="mug-wrap">
-            <div class="steam">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="mug">
-              <span class="mug-crown">👑</span>
-            </div>
-          </div>
-          <span class="item-label">columbia</span>
-        </div>
-
-      </div>
-    </div>
+  <!-- Notebook — my work -->
+  <div class="item" id="item-nb" data-popup="popup-nb">
+    <img class="notebook-img" src="images/notebook.png" alt="notebook">
+    <span class="item-label">my work</span>
   </div>
 
 </div>
@@ -307,7 +203,7 @@
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
       if (!isOpen) {
         const rect = item.getBoundingClientRect();
-        const popupW = 205;
+        const popupW = 210;
         let left = rect.left + rect.width / 2;
         left = Math.max(popupW / 2 + 8, Math.min(left, window.innerWidth - popupW / 2 - 8));
         popup.style.left = left + 'px';
