@@ -15,13 +15,22 @@
       position: relative;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom,
-        #A8CFEA 0%,
-        #C2DCF0 28%,
-        #D5ECF5 50%,
-        #DDF0D5 68%,
-        #C8E8B8 82%
-      );
+      /* sky strip at top, lush grass fills the rest */
+      background:
+        repeating-linear-gradient(
+          92deg,
+          transparent 0px, transparent 5px,
+          rgba(0,0,0,0.018) 5px, rgba(0,0,0,0.018) 6px
+        ),
+        linear-gradient(to bottom,
+          #A8D4EC 0%,
+          #C0DFF5 14%,
+          #90C840 18%,
+          #72B030 28%,
+          #5A9E25 50%,
+          #488818 72%,
+          #3A7012 100%
+        );
     }
 
     /* ── CLOUDS ──────────────────────────────── */
@@ -39,28 +48,28 @@
     }
 
     .cloud-1 {
-      width: 130px; height: 40px;
-      top: 10%; left: -160px;
+      width: 110px; height: 34px;
+      top: 3%; left: -160px;
       animation: drift 30s linear infinite 2s;
     }
-    .cloud-1::before { width: 62px; height: 62px; top: -31px; left: 20px; }
-    .cloud-1::after  { width: 46px; height: 46px; top: -20px; left: 62px; }
+    .cloud-1::before { width: 55px; height: 55px; top: -27px; left: 18px; }
+    .cloud-1::after  { width: 40px; height: 40px; top: -17px; left: 56px; }
 
     .cloud-2 {
-      width: 90px; height: 28px;
-      top: 20%; left: -120px;
+      width: 80px; height: 24px;
+      top: 8%; left: -120px;
       animation: drift 46s linear infinite 14s;
     }
-    .cloud-2::before { width: 44px; height: 44px; top: -22px; left: 12px; }
-    .cloud-2::after  { width: 34px; height: 34px; top: -15px; left: 42px; }
+    .cloud-2::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+    .cloud-2::after  { width: 30px; height: 30px; top: -13px; left: 38px; }
 
     .cloud-3 {
-      width: 72px; height: 22px;
-      top: 7%; left: -100px;
+      width: 65px; height: 20px;
+      top: 2%; left: -100px;
       animation: drift 58s linear infinite 28s;
     }
-    .cloud-3::before { width: 36px; height: 36px; top: -18px; left: 10px; }
-    .cloud-3::after  { width: 28px; height: 28px; top: -12px; left: 32px; }
+    .cloud-3::before { width: 32px; height: 32px; top: -16px; left: 8px; }
+    .cloud-3::after  { width: 25px; height: 25px; top: -11px; left: 30px; }
 
     @keyframes drift {
       from { transform: translateX(0); }
@@ -70,7 +79,7 @@
     /* ── NAME ────────────────────────────────── */
     .name-area {
       position: absolute;
-      top: 20%;
+      top: 4%;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
@@ -80,31 +89,31 @@
     }
     .name-area h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.9rem, 3.8vw, 3.2rem);
+      font-size: clamp(1.6rem, 3.2vw, 2.8rem);
       color: #1C3828;
       font-weight: 600;
       letter-spacing: 0.02em;
-      text-shadow: 0 2px 14px rgba(255,255,255,0.75);
+      text-shadow: 0 2px 14px rgba(255,255,255,0.8);
     }
     .name-area .tagline {
-      margin-top: 9px;
+      margin-top: 7px;
       font-family: 'Lato', sans-serif;
-      font-size: clamp(0.62rem, 1.1vw, 0.82rem);
+      font-size: clamp(0.58rem, 1vw, 0.78rem);
       color: #2C5040;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       font-weight: 300;
     }
 
-    /* ── GRASS ───────────────────────────────── */
+    /* ── GRASS foreground blades container ───── */
     .grass {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 42%;
-      z-index: 1;
+      height: 30%;
+      z-index: 4;        /* in front of blanket edges */
+      pointer-events: none;
     }
-    .grass svg { width: 100%; height: 100%; display: block; }
 
     /* ── GRASS BLADES ────────────────────────── */
     .blade {
@@ -112,7 +121,7 @@
       bottom: 0;
       width: 3px;
       border-radius: 2px 2px 0 0;
-      background: linear-gradient(to bottom, #6EC85A, #3A7830);
+      background: linear-gradient(to bottom, #5AB845, #2A6018);
       transform-origin: bottom center;
       animation: sway var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
     }
@@ -124,7 +133,7 @@
     /* ── BLANKET ─────────────────────────────── */
     .blanket-wrap {
       position: absolute;
-      bottom: 22%;
+      bottom: 18%;
       left: 50%;
       transform: translateX(-50%);
       width: min(88vw, 580px);
@@ -474,17 +483,8 @@
     <p class="tagline">policy &nbsp;·&nbsp; advocacy &nbsp;·&nbsp; columbia</p>
   </div>
 
-  <!-- Grass SVG -->
-  <div class="grass">
-    <svg viewBox="0 0 1440 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- back layer -->
-      <path d="M0,90 Q240,45 480,95 Q720,148 960,72 Q1160,22 1300,80 Q1380,108 1440,78 L1440,300 L0,300 Z"
-            fill="#5BA04A"/>
-      <!-- front layer -->
-      <path d="M0,155 Q200,105 420,152 Q640,200 820,125 Q990,65 1160,138 Q1310,192 1440,148 L1440,300 L0,300 Z"
-            fill="#3D7C30"/>
-    </svg>
-  </div>
+  <!-- Foreground grass blades (rendered by JS) -->
+  <div class="grass"></div>
 
   <!-- Blanket -->
   <div class="blanket-wrap">
@@ -568,21 +568,21 @@
     document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
   });
 
-  // Scatter grass blades along the grass top edge
+  // Dense foreground grass blades
   const grassEl = document.querySelector('.grass');
-  const count = 55;
+  const count = 90;
   for (let i = 0; i < count; i++) {
     const blade = document.createElement('div');
     blade.className = 'blade';
-    const h = 12 + Math.random() * 22;
-    const left = (i / count) * 100 + (Math.random() - 0.5) * 1.5;
-    const dur = 2.2 + Math.random() * 2;
-    const delay = Math.random() * 3;
-    const lightness = Math.floor(40 + Math.random() * 20);
+    const h = 22 + Math.random() * 38;   // taller blades
+    const w = 2 + Math.random() * 2;
+    const left = (i / count) * 100 + (Math.random() - 0.5) * 2;
+    const dur = 2 + Math.random() * 2.5;
+    const delay = Math.random() * 4;
     blade.style.cssText =
-      `left:${left}%;height:${h}px;` +
+      `left:${left}%;height:${h}px;width:${w}px;` +
       `--dur:${dur}s;--delay:${delay}s;` +
-      `filter:hue-rotate(${Math.floor(Math.random()*25)}deg) brightness(${0.85 + Math.random()*0.3});`;
+      `filter:hue-rotate(${Math.floor(Math.random()*30)}deg) brightness(${0.7 + Math.random()*0.5});`;
     grassEl.appendChild(blade);
   }
 </script>
