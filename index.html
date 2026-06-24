@@ -14,8 +14,9 @@
       position: relative;
       width: 100%;
       height: 100%;
-      background: url('images/background.jpg') left top / 100% auto no-repeat;
-      background-color: rgb(77, 137, 71);
+      background:
+        url('images/background.jpg') left 60px / 100% auto no-repeat,
+        linear-gradient(to bottom, rgb(236,235,228) 15%, rgb(72,128,65) 78%);
     }
 
     /* ── INVISIBLE CLICK ZONES ───────────────── */
@@ -28,15 +29,15 @@
 
     #item-tea {
       width: 120px; height: 140px;
-      top: 24%; left: 8%;
+      top: 31%; left: 8%;
     }
     #item-cap {
       width: 100px; height: 120px;
-      top: 15%; left: 58%;
+      top: 22%; left: 58%;
     }
     #item-nb {
       width: 160px; height: 130px;
-      top: 42%; left: 20%;
+      top: 49%; left: 20%;
     }
 
     /* ── POPUP ───────────────────────────────── */
@@ -91,7 +92,7 @@
     }
     .burmese-name {
       position: absolute;
-      top: 8%;
+      top: 16%;
       right: 3%;
       font-family: 'Padauk', serif;
       font-size: 15px;
