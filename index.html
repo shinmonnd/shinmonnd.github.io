@@ -17,22 +17,6 @@
       background: url('images/grass.jpg') center center / cover no-repeat;
     }
 
-    /* Blue sky fading naturally into the grass photo */
-    .scene::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 48%;
-      background: linear-gradient(to bottom,
-        #8EC8E8 0%,
-        #A8D8F0 30%,
-        #C5E8F8 55%,
-        rgba(200,235,220,0.5) 78%,
-        transparent 100%
-      );
-      z-index: 1;
-      pointer-events: none;
-    }
 
     /* ── NAME ────────────────────────────────── */
     .name-area {
