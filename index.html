@@ -17,6 +17,21 @@
       background: url('images/grass.jpg') center center / cover no-repeat;
     }
 
+    /* Sky fading into the grass photo */
+    .scene::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to bottom,
+        #A8CEEA 0%,
+        #C2DDF5 45%,
+        transparent 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
     /* ── NAME ────────────────────────────────── */
     .name-area {
       position: absolute;
