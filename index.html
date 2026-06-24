@@ -48,24 +48,25 @@
     }
 
     /* ── BLANKET ─────────────────────────────── */
-    /* Fills bottom of screen as a diagonal slab, like it's lying on the grass */
+    /* Rectangular blanket lying flat on the grass, slightly angled */
     .blanket-wrap {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 62vh;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-4deg);
+      width: min(74vw, 560px);
       z-index: 3;
     }
 
     .blanket {
       width: 100%;
-      height: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 6px;
       position: relative;
       background: url('images/blanket.jpg') center / cover no-repeat;
-      /* diagonal top edge — enters low-left, rises to upper-right */
-      clip-path: polygon(0% 36%, 100% 0%, 100% 100%, 0% 100%);
-      box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+      box-shadow:
+        0 18px 52px rgba(0,0,0,0.26),
+        0 6px 18px rgba(0,0,0,0.14);
     }
 
     /* ── ITEMS ───────────────────────────────── */
@@ -87,10 +88,10 @@
     .item:hover  { transform: translateY(-9px) rotate(-2deg); }
     .item:active { transform: translateY(-4px) rotate(-1deg); }
 
-    /* Scattered across the visible blanket surface */
-    #item-tea  { bottom: 52%; left: 14%; }
-    #item-nb   { bottom: 28%; left: 40%; }
-    #item-mug  { bottom: 46%; right: 10%; }
+    /* Scattered naturally across the blanket */
+    #item-tea  { top: 18%; left: 10%; }
+    #item-nb   { top: 38%; left: 38%; }
+    #item-mug  { top: 14%; right: 9%; }
 
     .item-label {
       font-family: 'Lato', sans-serif;
@@ -107,20 +108,17 @@
     }
     .item:hover .item-label { opacity: 1; transform: translateY(0); }
 
-    /* ── POPUP ───────────────────────────────── */
+    /* ── POPUP ── lives at scene level to escape clip-path ── */
     .popup {
       display: none;
-      position: absolute;
-      bottom: calc(100% + 14px);
-      left: 50%;
-      transform: translateX(-50%);
+      position: fixed;
       background: rgba(255, 253, 240, 0.97);
       border: 1.5px solid rgba(212, 168, 32, 0.38);
       border-radius: 12px;
       padding: 14px 18px;
       width: 205px;
       box-shadow: 0 6px 22px rgba(0,0,0,0.12);
-      z-index: 50;
+      z-index: 100;
       pointer-events: none;
     }
     .popup.show {
@@ -150,15 +148,15 @@
       border-top-color: rgba(255, 253, 240, 0.97);
     }
     @keyframes pop-in {
-      from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     /* ── PLATE MAGNET ────────────────────────── */
     .plate-magnet {
       position: absolute;
-      top: 52%;
-      left: 22%;
+      top: 74%;
+      left: 8%;
       transform: rotate(-6deg);
       width: 100px;
       border-radius: 5px;
@@ -277,6 +275,20 @@
     <span class="burmese">သျှင်မွန်နန္ဒ</span>
   </div>
 
+  <!-- Popups at scene level so clip-path doesn't hide them -->
+  <div class="popup" id="popup-tea">
+    <h3>laphet yay ✨</h3>
+    <p>Hi, I'm Shinmon — from Yangon, Burma. I care about justice, democracy, and the people who fight for both.</p>
+  </div>
+  <div class="popup" id="popup-nb">
+    <h3>Policy &amp; Practice</h3>
+    <p>NGO work · advocacy · research. Passionate about governance, civil society, and Southeast Asian affairs.</p>
+  </div>
+  <div class="popup" id="popup-mug">
+    <h3>Columbia University</h3>
+    <p>Graduate student at the School of International and Public Affairs. Based in New York City.</p>
+  </div>
+
   <!-- Plate in the grass -->
   <img
     class="plate-magnet"
@@ -293,10 +305,6 @@
 
         <!-- Laphet Yay -->
         <div class="item" id="item-tea" data-popup="popup-tea">
-          <div class="popup" id="popup-tea">
-            <h3>laphet yay ✨</h3>
-            <p>Hi, I'm Shinmon — from Yangon, Burma. I care about justice, democracy, and the people who fight for both.</p>
-          </div>
           <div class="tea">
             <div class="tea-straw"></div>
             <div class="tea-glass"></div>
@@ -306,20 +314,12 @@
 
         <!-- Policy Notebook -->
         <div class="item" id="item-nb" data-popup="popup-nb">
-          <div class="popup" id="popup-nb">
-            <h3>Policy &amp; Practice</h3>
-            <p>NGO work · advocacy · research. Passionate about governance, civil society, and Southeast Asian affairs.</p>
-          </div>
           <img class="notebook-img" src="images/notebook.png" alt="notebook">
           <span class="item-label">my work</span>
         </div>
 
         <!-- Columbia Mug -->
         <div class="item" id="item-mug" data-popup="popup-mug">
-          <div class="popup" id="popup-mug">
-            <h3>Columbia University</h3>
-            <p>Graduate student at the School of International and Public Affairs. Based in New York City.</p>
-          </div>
           <div class="mug-wrap">
             <div class="steam">
               <span></span><span></span><span></span>
@@ -344,7 +344,16 @@
       const popup = document.getElementById(item.dataset.popup);
       const isOpen = popup.classList.contains('show');
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
-      if (!isOpen) popup.classList.add('show');
+      if (!isOpen) {
+        const rect = item.getBoundingClientRect();
+        const popupW = 205;
+        let left = rect.left + rect.width / 2;
+        left = Math.max(popupW / 2 + 8, Math.min(left, window.innerWidth - popupW / 2 - 8));
+        popup.style.left = left + 'px';
+        popup.style.top = (rect.top - 14) + 'px';
+        popup.style.transform = 'translateX(-50%) translateY(-100%)';
+        popup.classList.add('show');
+      }
     });
   });
 
