@@ -32,16 +32,16 @@
     }
 
     #item-tea {
-      width: 120px; height: 140px;
-      top: 31%; left: 8%;
+      width: 165px; height: 120px;
+      top: 29%; left: 7%;
     }
     #item-cap {
-      width: 100px; height: 120px;
-      top: 22%; left: 58%;
+      width: 120px; height: 115px;
+      top: 21%; left: 58%;
     }
     #item-nb {
-      width: 160px; height: 130px;
-      top: 49%; left: 20%;
+      width: 165px; height: 130px;
+      top: 45%; left: 19%;
     }
 
     /* ── POPUP ───────────────────────────────── */
@@ -170,12 +170,10 @@
         popup.style.display = '';
         popup.style.visibility = '';
 
-        // Position above if room, otherwise below; clamp to viewport
+        // Always pop below the item, clamped to viewport
         const gap = 12;
         const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-        let top = rect.top - gap >= popupH + 10
-          ? rect.top - gap - popupH
-          : rect.bottom + gap;
+        let top = rect.bottom + gap;
         top = Math.max(10, Math.min(top, vh - popupH - 10));
         popup.style.top = top + 'px';
         popup.classList.add('show');
