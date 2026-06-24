@@ -166,6 +166,18 @@
       opacity: 0.85;
       text-decoration: none;
     }
+    /* ── SUNSET OVERLAY ─────────────────────── */
+    .sunset-overlay {
+      position: absolute;
+      inset: 0;
+      background: url('images/sunset.jpg') center / cover no-repeat;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .sunset-overlay.show { opacity: 1; }
+
     @keyframes pop-in {
       from { opacity: 0; transform: translateX(-50%) scale(0.92); }
       to   { opacity: 1; transform: translateX(-50%) scale(1); }
@@ -205,13 +217,8 @@
     </a>
   </div>
 
-  <!-- Cloud popup -->
-  <div class="popup" id="popup-cloud">
-    <div class="popup-card">
-      <h3>✦ Dreams</h3>
-      <p>coming soon</p>
-    </div>
-  </div>
+  <!-- Sunset overlay — fades in on cloud tap -->
+  <div class="sunset-overlay" id="sunset-overlay"></div>
 
   <!-- Sparkle tap indicators -->
   <div class="sparkle" id="spark-tea">✦</div>
@@ -227,20 +234,32 @@
   <div class="item" id="item-nb"  data-popup="popup-nb"></div>
   <div class="item" id="item-cap" data-popup="popup-cap"></div>
   <div class="item" id="item-tea" data-popup="popup-tea"></div>
-  <div class="item" id="item-cloud" data-popup="popup-cloud" style="width:140px;height:120px;top:8%;left:0%"></div>
+  <div class="item" id="item-cloud" style="width:140px;height:120px;top:8%;left:0%"></div>
 
 </div>
 
 <script>
-  document.querySelectorAll('.item').forEach(item => {
+  const sunset = document.getElementById('sunset-overlay');
+  const allSparkles = () => document.querySelectorAll('.sparkle, .sparkle-silver');
+
+  // Cloud tap → toggle sunset background
+  document.getElementById('item-cloud').addEventListener('click', e => {
+    e.stopPropagation();
+    const showing = sunset.classList.toggle('show');
+    allSparkles().forEach(s => s.classList.toggle('hidden', showing));
+    document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
+  });
+
+  // Other items → popup cards
+  document.querySelectorAll('.item:not(#item-cloud)').forEach(item => {
     item.addEventListener('click', e => {
       e.stopPropagation();
+      sunset.classList.remove('show');
       const popup = document.getElementById(item.dataset.popup);
       const isOpen = popup.classList.contains('show');
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
       if (!isOpen) {
         const rect = item.getBoundingClientRect();
-        // Measure popup dimensions before showing
         popup.style.visibility = 'hidden';
         popup.style.display = 'flex';
         const popupW = popup.offsetWidth;
@@ -251,24 +270,23 @@
         left = Math.max(popupW / 2 + 8, Math.min(left, window.innerWidth - popupW / 2 - 8));
         popup.style.left = left + 'px';
         popup.style.transform = 'translateX(-50%)';
-
-        // Always pop below the item, clamped to viewport
         const gap = 12;
         const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
         let top = rect.bottom + gap;
         top = Math.max(10, Math.min(top, vh - popupH - 10));
         popup.style.top = top + 'px';
         popup.classList.add('show');
-        document.querySelectorAll('.sparkle, .sparkle-silver').forEach(s => s.classList.add('hidden'));
+        allSparkles().forEach(s => s.classList.add('hidden'));
       } else {
-        document.querySelectorAll('.sparkle, .sparkle-silver').forEach(s => s.classList.remove('hidden'));
+        allSparkles().forEach(s => s.classList.remove('hidden'));
       }
     });
   });
 
   document.addEventListener('click', () => {
+    sunset.classList.remove('show');
     document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
-    document.querySelectorAll('.sparkle, .sparkle-silver').forEach(s => s.classList.remove('hidden'));
+    allSparkles().forEach(s => s.classList.remove('hidden'));
   });
 </script>
 </body>
