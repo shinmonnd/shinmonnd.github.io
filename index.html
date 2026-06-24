@@ -51,50 +51,33 @@
       position: fixed;
       z-index: 100;
       pointer-events: none;
-      width: 190px;
+      width: 210px;
       flex-direction: column;
       align-items: center;
-      gap: 0;
     }
     .popup.show {
       display: flex;
       animation: pop-in 0.18s ease-out forwards;
     }
-    /* Pin dot connector */
-    .popup-pin {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #b89c6e;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.22);
-      flex-shrink: 0;
-      margin-bottom: 6px;
-    }
-    /* Sticky note card */
+    /* Wax-sealed letter card */
     .popup-card {
-      background: #fefae8;
-      border-radius: 3px;
-      padding: 12px 14px 14px;
       width: 100%;
-      box-shadow:
-        0 2px 6px rgba(0,0,0,0.14),
-        2px 3px 0 rgba(180,155,80,0.18);
-      transform: rotate(-1.2deg);
+      background: url('images/waxcard.png') center top / 100% auto no-repeat;
+      padding: 82px 22px 28px;
       text-align: left;
+      filter: drop-shadow(0 6px 18px rgba(0,0,0,0.22));
     }
     .popup-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 13px;
+      font-size: 12.5px;
       font-style: italic;
-      color: #2a1f0a;
-      margin-bottom: 6px;
-      border-bottom: 1px solid rgba(160,130,60,0.2);
-      padding-bottom: 5px;
+      color: #2a1a0a;
+      margin-bottom: 5px;
     }
     .popup-card p {
       font-family: 'Lato', sans-serif;
-      font-size: 11px;
-      color: #4a3828;
+      font-size: 10.5px;
+      color: #4a3020;
       line-height: 1.7;
     }
     /* ── SPARKLE INDICATORS ─────────────────── */
@@ -164,21 +147,18 @@
 
   <!-- Popups: pinned sticky note annotations -->
   <div class="popup" id="popup-tea">
-    <div class="popup-pin"></div>
     <div class="popup-card">
       <h3>🌿 Roots</h3>
       <p>Yangon-born, New York-based &amp; powered by laphet</p>
     </div>
   </div>
   <div class="popup" id="popup-cap">
-    <div class="popup-pin"></div>
     <div class="popup-card">
       <h3>🎓 Learning</h3>
       <p>Columbia University, Class of 2021</p>
     </div>
   </div>
   <div class="popup" id="popup-nb">
-    <div class="popup-pin"></div>
     <div class="popup-card">
       <h3>🌎 Work</h3>
       <p>NGO &amp; public policy — from USABC to HIAS, working at the intersection of community, advocacy, and social impact.</p>
