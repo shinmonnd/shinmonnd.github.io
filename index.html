@@ -115,6 +115,24 @@
       100% { opacity: 0.3; transform: scale(0.7) rotate(0deg); }
     }
 
+    /* ── SILVER CLOUD SPARKLES ───────────────── */
+    .sparkle-silver {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 6;
+      user-select: none;
+      color: #c8cdd4;
+      text-shadow: 0 0 8px rgba(210,215,225,0.95), 0 0 18px rgba(180,190,210,0.6);
+      transition: opacity 0.3s ease;
+    }
+    .sparkle-silver.hidden { opacity: 0; }
+    #spark-cloud-a { top: 11%; left: 4%;  font-size: 10px; animation: sparkle-anim 2.8s ease-in-out infinite 0.2s; }
+    #spark-cloud-b { top: 16%; left: 11%; font-size: 14px; animation: sparkle-anim 3.2s ease-in-out infinite 0.9s; }
+    #spark-cloud-c { top: 9%;  left: 16%; font-size: 9px;  animation: sparkle-anim 2.5s ease-in-out infinite 1.6s; }
+
     .name-block {
       position: absolute;
       top: 5%;
@@ -187,15 +205,29 @@
     </a>
   </div>
 
+  <!-- Cloud popup -->
+  <div class="popup" id="popup-cloud">
+    <div class="popup-card">
+      <h3>✦ Dreams</h3>
+      <p>coming soon</p>
+    </div>
+  </div>
+
   <!-- Sparkle tap indicators -->
   <div class="sparkle" id="spark-tea">✦</div>
   <div class="sparkle" id="spark-cap">✦</div>
   <div class="sparkle" id="spark-nb">✦</div>
 
-  <!-- Invisible click zones — tea is last so it wins in any DOM overlap -->
+  <!-- Silver cloud sparkles -->
+  <div class="sparkle-silver" id="spark-cloud-a">✦</div>
+  <div class="sparkle-silver" id="spark-cloud-b">✦</div>
+  <div class="sparkle-silver" id="spark-cloud-c">✦</div>
+
+  <!-- Invisible click zones -->
   <div class="item" id="item-nb"  data-popup="popup-nb"></div>
   <div class="item" id="item-cap" data-popup="popup-cap"></div>
   <div class="item" id="item-tea" data-popup="popup-tea"></div>
+  <div class="item" id="item-cloud" data-popup="popup-cloud" style="width:140px;height:120px;top:8%;left:0%"></div>
 
 </div>
 
@@ -227,16 +259,16 @@
         top = Math.max(10, Math.min(top, vh - popupH - 10));
         popup.style.top = top + 'px';
         popup.classList.add('show');
-        document.querySelectorAll('.sparkle').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('.sparkle, .sparkle-silver').forEach(s => s.classList.add('hidden'));
       } else {
-        document.querySelectorAll('.sparkle').forEach(s => s.classList.remove('hidden'));
+        document.querySelectorAll('.sparkle, .sparkle-silver').forEach(s => s.classList.remove('hidden'));
       }
     });
   });
 
   document.addEventListener('click', () => {
     document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
-    document.querySelectorAll('.sparkle').forEach(s => s.classList.remove('hidden'));
+    document.querySelectorAll('.sparkle, .sparkle-silver').forEach(s => s.classList.remove('hidden'));
   });
 </script>
 </body>
