@@ -17,17 +17,17 @@
       background: url('images/grass.jpg') center center / cover no-repeat;
     }
 
-    /* Warm sky fading into the grass — golden hour to match the blanket */
+    /* Blue sky fading naturally into the grass photo */
     .scene::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 45%;
+      height: 48%;
       background: linear-gradient(to bottom,
-        #F5E4B0 0%,
-        #EDD88A 20%,
-        #D4C870 40%,
-        rgba(180,200,100,0.5) 70%,
+        #8EC8E8 0%,
+        #A8D8F0 30%,
+        #C5E8F8 55%,
+        rgba(200,235,220,0.5) 78%,
         transparent 100%
       );
       z-index: 1;
@@ -83,17 +83,6 @@
       clip-path: polygon(0% 36%, 100% 0%, 100% 100%, 0% 100%);
       box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
     }
-
-    /* Foreground grass tufts overlapping the blanket's diagonal edge */
-    .grass-edge {
-      position: absolute;
-      bottom: 58vh;
-      left: 0; right: 0;
-      height: 80px;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .grass-edge svg { width: 100%; height: 100%; }
 
     /* ── ITEMS ───────────────────────────────── */
     .items {
@@ -303,14 +292,6 @@
   <div class="name-area">
     <h1>Shinmon Nanda</h1>
     <span class="burmese">သျှင်မွန်နန္ဒ</span>
-  </div>
-
-  <!-- Grass tufts overlapping the blanket's diagonal edge -->
-  <div class="grass-edge">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,60 Q80,20 160,55 Q240,80 320,35 Q400,5 480,45 Q560,75 640,30 Q720,0 800,40 Q880,70 960,25 Q1040,0 1120,38 Q1200,65 1280,30 Q1360,5 1440,42 L1440,80 L0,80 Z" fill="#4A9238"/>
-      <path d="M0,72 Q100,40 200,65 Q300,80 400,50 Q500,25 600,58 Q700,78 800,48 Q900,22 1000,55 Q1100,75 1200,45 Q1320,18 1440,55 L1440,80 L0,80 Z" fill="#3A7828"/>
-    </svg>
   </div>
 
   <!-- Blanket -->
