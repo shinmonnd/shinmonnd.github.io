@@ -7,7 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&family=Padauk:wght@400;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { width: 100vw; height: 100vh; overflow: hidden; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #dcd7ce; }
+
+    /* ── DESKTOP: center scene as a phone-width column ── */
+    @media (min-width: 700px) {
+      body { display: flex; justify-content: center; align-items: stretch; }
+      .scene { max-width: 500px; flex-shrink: 0; }
+    }
 
     /* ── SCENE ───────────────────────────────── */
     .scene {
