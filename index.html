@@ -545,14 +545,17 @@
     // a real user gesture, so play() is allowed; the music keeps going when
     // the card closes, until the iPod is tapped again.
     const SPOTIFY_TRACK_URI = 'spotify:track:1WYrTfvKjQYaYfVziGG1ET';
-    let spController = null, ipodPlaying = false, pendingPlay = false;
+    let spController = null, ipodPlaying = false, pendingPlay = false, embedReady = false;
     window.__ipod = { apiLoaded: false, controllerCreated: false, embedReady: false, playing: false, lastPlayError: null, iframeAllow: null };
     function setIpodBadge(on) {
       const b = document.getElementById('w-playing');
       if (b) b.classList.toggle('on', on);
     }
     function ipodPlay() {
-      if (!spController) { pendingPlay = true; return; } // API still loading — play as soon as ready
+      // The API's iframe is loading="lazy": it only boots once the card is
+      // visible, so play() must wait for the embed's 'ready' event —
+      // calling it earlier is silently dropped.
+      if (!spController || !embedReady) { pendingPlay = true; return; }
       try {
         const r = spController.play();
         if (r && typeof r.catch === 'function') r.catch(function (err) { window.__ipod.lastPlayError = String((err && err.message) || err); });
@@ -567,7 +570,16 @@
         window.__ipod.controllerCreated = true;
         const fr = document.querySelector('#popup-ipod iframe');
         if (fr) window.__ipod.iframeAllow = fr.getAttribute('allow');
-        controller.addListener('ready', function () { window.__ipod.embedReady = true; });
+        controller.addListener('ready', function () {
+          embedReady = true;
+          window.__ipod.embedReady = true;
+          // Flush a tap that arrived while the iframe was still booting —
+          // but only if the card is still open (no surprise music).
+          if (pendingPlay) {
+            pendingPlay = false;
+            if (document.getElementById('popup-ipod').classList.contains('show')) ipodPlay();
+          }
+        });
         controller.addListener('playback_update', function (e) {
           if (e && e.data) {
             ipodPlaying = !e.data.isPaused;
