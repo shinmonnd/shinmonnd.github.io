@@ -237,6 +237,10 @@
         width: min(100%, 66.02vh);
         aspect-ratio: 1082 / 1639;
         flex-shrink: 0;
+        /* Feather the left/right edges so the sharp column melts
+           seamlessly into the blurred backdrop — no hard seams. */
+        -webkit-mask-image: linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%);
       }
       .picnic-bg { top: 0; }
       /* Tap zones & sparkles, converted from the 844px-tall composition
