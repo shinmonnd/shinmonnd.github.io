@@ -41,6 +41,9 @@
       pointer-events: none;
     }
 
+    /* Wide-screen desktop scene — hidden on phones, shown ≥700px */
+    .wide { display: none; }
+
     /* ── INVISIBLE CLICK ZONES ───────────────── */
     .item {
       position: absolute;
@@ -206,55 +209,74 @@
       to   { opacity: 1; transform: translateX(-50%) scale(1); }
     }
 
-    /* ── DESKTOP: full-page view ──
-       The scene fills the viewport. A blurred, stretched copy of the artwork
-       continues the sky/blanket/grass behind everything, while .art holds the
-       sharp full-height artwork with all tap zones and sparkles positioned
-       relative to it, so they stay glued to the artwork at any window size.
+    /* ── DESKTOP: true wide-screen scene ──
+       A landscape picnic composition built from the individual cutout
+       assets (cloud crop, blanket, item PNGs, grass strip) — the full
+       viewport is used, no portrait column, no blurred filler.
        Phone view (<700px) is untouched. */
     @media (min-width: 700px) {
-      body { display: block; }
-      .scene {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f5f5f5;
-      }
-      /* Blurred backdrop: stretched (not cropped) so its sky/blanket/grass
-         bands line up vertically with the sharp artwork. */
-      .scene::before {
-        content: "";
+      .art { display: none; }
+      .wide { display: block; }
+      .wide {
         position: absolute;
         inset: 0;
-        background: url('images/background.png') center / 100% 100% no-repeat;
-        filter: blur(30px);
-        transform: scale(1.04);
+        overflow: hidden;
       }
-      .art {
-        /* Width-driven sizing: percentages of the flex container's width
-           always resolve; the vh cap keeps the column within the viewport
-           height. The aspect ratio derives the height. */
-        width: min(100%, 66.02vh);
-        aspect-ratio: 1082 / 1639;
-        flex-shrink: 0;
-        /* Feather the left/right edges so the sharp column melts
-           seamlessly into the blurred backdrop — no hard seams. */
-        -webkit-mask-image: linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%);
-        mask-image: linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%);
+      .w-sky {
+        position: absolute; top: 0; left: 0; right: 0; height: 30%;
+        background: linear-gradient(to bottom, #faf8f4 0%, #f5f1ea 70%, #efe9dd 100%);
       }
-      .picnic-bg { top: 0; }
-      /* Tap zones & sparkles, converted from the 844px-tall composition
-         to artwork-relative percentages */
-      #item-tea   { top: 43.36%; left: 10%; width: 33%;    height: 15.85%; }
-      #item-cap   { top: 31.10%; left: 55%; width: 32%;    height: 18.50%; }
-      #item-nb    { top: 58.97%; left: 34%; width: 30%;    height: 17.17%; }
-      #item-cloud { top: 0.99%;  left: 0;   width: 38%;    height: 22.46%; }
-      #spark-tea  { top: 51.16%; left: 32%; }
-      #spark-cap  { top: 41.13%; left: 75%; }
-      #spark-nb   { top: 67.89%; left: 53%; }
-      #spark-cloud-a { top: 4.34%; left: 4%; }
-      #spark-cloud-b { top: 9.91%; left: 11%; }
-      #spark-cloud-c { top: 2.11%; left: 16%; }
+      /* Cloud cropped from the composite; its sky is transparent */
+      .w-cloud {
+        position: absolute; top: 2.3%; left: 3.6%; width: 29.2%;
+        aspect-ratio: 580 / 400; overflow: hidden; z-index: 3;
+      }
+      .w-cloud img { width: 186.55%; display: block; }
+      .w-blanket {
+        position: absolute; top: 29%; left: 0; right: 0; height: 46%;
+        overflow: hidden; z-index: 1;
+      }
+      .w-blanket img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        filter: hue-rotate(160deg) saturate(0.5) brightness(1.15);
+      }
+      /* Grass: clean painted strip cropped from the composite */
+      .w-grass {
+        position: absolute; top: 73%; left: 0; right: 0;
+        aspect-ratio: 1082 / 219; overflow: hidden; z-index: 1;
+      }
+      .w-grass img { width: 100%; display: block; margin-top: -131.24%; }
+      .w-item { position: absolute; z-index: 3; }
+      .w-item img {
+        width: 100%; display: block; pointer-events: none;
+        filter: drop-shadow(0 12px 20px rgba(60,50,30,0.28));
+      }
+      .w-tea { left: 7.8%;  top: 39.8%; width: 20.8%; }
+      .w-nb  { left: 38%;   top: 46.3%; width: 27.1%; }
+      .w-cap { left: 69.3%; top: 36.1%; width: 22.4%; }
+      .w-item .item { position: absolute; inset: 6% 4%; }
+      .w-cloud .item-cloud { position: absolute; inset: 0; }
+      /* Sparkles sit on the items */
+      .w-spark-tea { top: 55%; left: 50%; animation: sparkle-anim 3s ease-in-out infinite 0s; }
+      .w-spark-nb  { top: 38%; left: 50%; animation: sparkle-anim 3s ease-in-out infinite 1s; }
+      .w-spark-cap { top: 50%; left: 50%; animation: sparkle-anim 3s ease-in-out infinite 2s; }
+      .w-spark-cloud-a { top: 25%; left: 30%; font-size: 10px; animation: sparkle-anim 2.8s ease-in-out infinite 0.2s; }
+      .w-spark-cloud-b { top: 45%; left: 55%; font-size: 14px; animation: sparkle-anim 3.2s ease-in-out infinite 0.9s; }
+      .w-spark-cloud-c { top: 20%; left: 75%; font-size: 9px;  animation: sparkle-anim 2.5s ease-in-out infinite 1.6s; }
+      /* Sunset fades the sky behind the cloud */
+      .sunset-wide {
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 26%, transparent 34%);
+        mask-image: linear-gradient(to bottom, black 0%, black 26%, transparent 34%);
+        z-index: 2;
+      }
+      /* Larger name + popups on desktop */
+      .english-name { font-size: 54px; }
+      .burmese-name { font-size: 28px; }
+      .name-email { font-size: 15px; }
+      .popup { width: 300px; }
+      #popup-nb { width: 330px; }
+      .popup-card h3 { font-size: 20px; }
+      .popup-card p { font-size: 14px; }
     }
 
   </style>
@@ -284,7 +306,41 @@
   <div class="item" id="item-nb"  data-popup="popup-nb"></div>
   <div class="item" id="item-cap" data-popup="popup-cap"></div>
   <div class="item" id="item-tea" data-popup="popup-tea"></div>
-  <div class="item" id="item-cloud"></div>
+  <div class="item item-cloud" id="item-cloud"></div>
+  </div>
+
+  <!-- Wide-screen desktop scene (≥700px): landscape picnic composition -->
+  <div class="wide">
+    <div class="w-sky"></div>
+    <div class="w-blanket"><img src="images/blanket.jpg" alt=""></div>
+    <div class="w-grass"><img src="images/background.png" alt=""></div>
+
+    <!-- Sunset overlay — fades in on cloud tap -->
+    <div class="sunset-overlay sunset-wide"></div>
+
+    <div class="w-cloud">
+      <img src="images/background.png" alt="">
+      <div class="item item-cloud"></div>
+      <div class="sparkle-silver w-spark-cloud-a">✦</div>
+      <div class="sparkle-silver w-spark-cloud-b">✦</div>
+      <div class="sparkle-silver w-spark-cloud-c">✦</div>
+    </div>
+
+    <div class="w-item w-tea">
+      <img src="images/laphet.png" alt="Laphet tea tins">
+      <div class="item" data-popup="popup-tea"></div>
+      <div class="sparkle w-spark-tea">✦</div>
+    </div>
+    <div class="w-item w-nb">
+      <img src="images/notebook.png" alt="Notebook">
+      <div class="item" data-popup="popup-nb"></div>
+      <div class="sparkle w-spark-nb">✦</div>
+    </div>
+    <div class="w-item w-cap">
+      <img src="images/cap.png" alt="Columbia cap">
+      <div class="item" data-popup="popup-cap"></div>
+      <div class="sparkle w-spark-cap">✦</div>
+    </div>
   </div>
 
   <!-- Name overlay -->
@@ -319,22 +375,25 @@
 </div>
 
 <script>
-  const sunset = document.getElementById('sunset-overlay');
+  const sunsets = document.querySelectorAll('.sunset-overlay');
   const allSparkles = () => document.querySelectorAll('.sparkle, .sparkle-silver');
 
   // Cloud tap → toggle sunset background
-  document.getElementById('item-cloud').addEventListener('click', e => {
-    e.stopPropagation();
-    const showing = sunset.classList.toggle('show');
-    allSparkles().forEach(s => s.classList.toggle('hidden', showing));
-    document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.item-cloud').forEach(cloud => {
+    cloud.addEventListener('click', e => {
+      e.stopPropagation();
+      const showing = !sunsets[0].classList.contains('show');
+      sunsets.forEach(s => s.classList.toggle('show', showing));
+      allSparkles().forEach(s => s.classList.toggle('hidden', showing));
+      document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
+    });
   });
 
   // Other items → popup cards
-  document.querySelectorAll('.item:not(#item-cloud)').forEach(item => {
+  document.querySelectorAll('.item[data-popup]').forEach(item => {
     item.addEventListener('click', e => {
       e.stopPropagation();
-      sunset.classList.remove('show');
+      sunsets.forEach(s => s.classList.remove('show'));
       const popup = document.getElementById(item.dataset.popup);
       const isOpen = popup.classList.contains('show');
       document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
@@ -364,7 +423,7 @@
   });
 
   document.addEventListener('click', () => {
-    sunset.classList.remove('show');
+    sunsets.forEach(s => s.classList.remove('show'));
     document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
     allSparkles().forEach(s => s.classList.remove('hidden'));
   });
