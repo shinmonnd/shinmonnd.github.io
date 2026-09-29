@@ -541,29 +541,41 @@
   });
 
     // ── iPod → Spotify: tap plays Linger, tap again pauses ──
-    // Spotify froze new developer-app creation, so the Web Playback SDK
-    // path is unavailable. Instead we use Spotify's IFrame API (no login,
-    // no app). The tap is a real user gesture, so play() is allowed; the
-    // music keeps going when the card closes, until the iPod is tapped
-    // again. With Premium logged in on that browser it's the full track.
+    // Uses Spotify's IFrame Embed API (no login, no app needed). The tap is
+    // a real user gesture, so play() is allowed; the music keeps going when
+    // the card closes, until the iPod is tapped again.
     const SPOTIFY_TRACK_URI = 'spotify:track:1WYrTfvKjQYaYfVziGG1ET';
     let spController = null, ipodPlaying = false, pendingPlay = false;
+    window.__ipod = { apiLoaded: false, controllerCreated: false, embedReady: false, playing: false, lastPlayError: null, iframeAllow: null };
     function setIpodBadge(on) {
       const b = document.getElementById('w-playing');
       if (b) b.classList.toggle('on', on);
     }
+    function ipodPlay() {
+      if (!spController) { pendingPlay = true; return; } // API still loading — play as soon as ready
+      try {
+        const r = spController.play();
+        if (r && typeof r.catch === 'function') r.catch(function (err) { window.__ipod.lastPlayError = String((err && err.message) || err); });
+      } catch (err) { window.__ipod.lastPlayError = String((err && err.message) || err); }
+    }
     window.onSpotifyIframeApiReady = function (IFrameAPI) {
+      window.__ipod.apiLoaded = true;
       const el = document.getElementById('sp-embed');
-      if (!el) return;
+      if (!el) { window.__ipod.lastPlayError = 'no #sp-embed element'; return; }
       IFrameAPI.createController(el, { width: '100%', height: 152, uri: SPOTIFY_TRACK_URI }, function (controller) {
         spController = controller;
+        window.__ipod.controllerCreated = true;
+        const fr = document.querySelector('#popup-ipod iframe');
+        if (fr) window.__ipod.iframeAllow = fr.getAttribute('allow');
+        controller.addListener('ready', function () { window.__ipod.embedReady = true; });
         controller.addListener('playback_update', function (e) {
           if (e && e.data) {
             ipodPlaying = !e.data.isPaused;
+            window.__ipod.playing = ipodPlaying;
             setIpodBadge(ipodPlaying);
           }
         });
-        if (pendingPlay) { pendingPlay = false; controller.play(); }
+        if (pendingPlay) { pendingPlay = false; ipodPlay(); }
       });
     };
     function onIpodTap(e) {
@@ -583,8 +595,7 @@
         positionPopup(e.currentTarget, popup);
         popup.classList.add('show');
         allSparkles().forEach(s => s.classList.add('hidden'));
-        if (spController) spController.play();
-        else pendingPlay = true; // API still loading — play as soon as ready
+        ipodPlay();
       }
     }
     document.getElementById('item-ipod').addEventListener('click', onIpodTap);
