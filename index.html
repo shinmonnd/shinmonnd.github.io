@@ -240,12 +240,35 @@
         width: 100%; height: 100%; object-fit: cover; display: block;
         filter: hue-rotate(160deg) saturate(0.5) brightness(1.15);
       }
-      /* Grass: clean painted strip cropped from the composite */
+      /* Fabric grain so it reads as cloth, not a flat pattern */
+      .w-blanket::before {
+        content: "";
+        position: absolute; inset: 0; pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+        opacity: 0.16;
+        mix-blend-mode: overlay;
+      }
+      /* Soft fold shading + a hem shadow so the blanket sits on the grass */
+      .w-blanket::after {
+        content: "";
+        position: absolute; inset: 0; pointer-events: none;
+        background:
+          linear-gradient(115deg, transparent 52%, rgba(255,255,255,0.10) 66%, transparent 80%),
+          linear-gradient(65deg, transparent 38%, rgba(30,50,110,0.10) 55%, transparent 72%),
+          linear-gradient(to bottom, transparent 84%, rgba(30,45,90,0.20) 95%, rgba(25,40,80,0.32) 100%);
+      }
+      /* Grass: clean painted strip cropped from the composite.
+         Slightly softened to hide upscale pixelation. */
       .w-grass {
         position: absolute; top: 73%; left: 0; right: 0;
         aspect-ratio: 1082 / 219; overflow: hidden; z-index: 1;
       }
-      .w-grass img { width: 100%; display: block; margin-top: -131.24%; }
+      .w-grass img { width: 100%; display: block; margin-top: -131.24%; filter: blur(1.5px); }
+      .w-grass::after {
+        content: "";
+        position: absolute; inset: 0; pointer-events: none;
+        background: linear-gradient(to bottom, rgba(20,55,30,0.28), transparent 22%);
+      }
       .w-item { position: absolute; z-index: 3; }
       .w-item img {
         width: 100%; display: block; pointer-events: none;
