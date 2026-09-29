@@ -115,7 +115,10 @@
       line-height: 1.6;
       text-align: center;
     }
-    /* iPod music card — dark Spotify-style player, not the wax-seal letter */
+    /* iPod music card — dark Spotify-style player, not the wax-seal letter.
+       Needs pointer-events: auto so the embed's play button is tappable
+       (other popups are text-only and keep pointer-events: none). */
+    #popup-ipod { pointer-events: auto; }
     .popup-music {
       background: #191414;
       border-radius: 16px;
