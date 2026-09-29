@@ -9,22 +9,49 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body { width: 100vw; height: 100vh; overflow: hidden; background: #dcd7ce; }
 
-    /* ── DESKTOP: fixed-proportion column, centered ──
-       Lock the scene to the phone composition's proportions (500×844)
-       so artwork, tap zones, and sparkles stay aligned, then center it
-       in the viewport. Phone view (<700px) is untouched. */
+    /* ── DESKTOP: full-page view ──
+       The scene fills the viewport. A blurred, stretched copy of the artwork
+       continues the sky/blanket/grass behind everything, while .art holds the
+       sharp full-height artwork with all tap zones and sparkles positioned
+       relative to it, so they stay glued to the artwork at any window size.
+       Phone view (<700px) is untouched. */
     @media (min-width: 700px) {
-      body { display: flex; justify-content: center; align-items: center; }
+      body { display: block; }
       .scene {
-        flex-shrink: 0;
-        width: auto;
-        height: min(844px, 100vh);
-        aspect-ratio: 500 / 844;
-        max-width: 500px;
-        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
       }
-      .picnic-bg { top: 7.1%; }
-      #item-cloud { width: 190px; height: 170px; top: 5%; left: 0; }
+      /* Blurred backdrop: stretched (not cropped) so its sky/blanket/grass
+         bands line up vertically with the sharp artwork. */
+      .scene::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('images/background.png') center / 100% 100% no-repeat;
+        filter: blur(30px);
+        transform: scale(1.04);
+      }
+      .art {
+        width: auto;
+        height: min(100%, 151.5vw);
+        aspect-ratio: 1082 / 1639;
+        flex-shrink: 0;
+      }
+      .picnic-bg { top: 0; height: 100%; }
+      /* Tap zones & sparkles, converted from the 844px-tall composition
+         to artwork-relative percentages */
+      #item-tea   { top: 43.36%; left: 10%; width: 33%;    height: 15.85%; }
+      #item-cap   { top: 31.10%; left: 55%; width: 32%;    height: 18.50%; }
+      #item-nb    { top: 58.97%; left: 34%; width: 30%;    height: 17.17%; }
+      #item-cloud { top: 0.99%;  left: 0;   width: 38%;    height: 22.46%; }
+      #spark-tea  { top: 51.16%; left: 32%; }
+      #spark-cap  { top: 41.13%; left: 75%; }
+      #spark-nb   { top: 67.89%; left: 53%; }
+      #spark-cloud-a { top: 4.34%; left: 4%; }
+      #spark-cloud-b { top: 9.91%; left: 11%; }
+      #spark-cloud-c { top: 2.11%; left: 16%; }
     }
 
     /* ── SCENE ───────────────────────────────── */
@@ -32,6 +59,7 @@
       position: relative;
       width: 100%;
       height: 100%;
+      overflow: hidden;
       background: linear-gradient(to bottom,
         rgb(245,245,245) 0%,
         rgb(245,245,245) 73%,
@@ -39,6 +67,13 @@
         rgb(78,138,73)   80%,
         rgb(48,88,44)    100%
       );
+    }
+    /* Artwork stage: on phones this is the full scene box (layout unchanged);
+       on desktop it becomes the full-height artwork column. */
+    .art {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
     /* Picnic image sits above sunset overlay, transparent sky lets sunset through */
     .picnic-bg {
@@ -70,6 +105,10 @@
     #item-nb {
       width: 150px; height: 130px;
       top: 60%; left: 34%;
+    }
+    #item-cloud {
+      width: 140px; height: 120px;
+      top: 8%; left: 0;
     }
 
     /* ── POPUP ───────────────────────────────── */
@@ -217,8 +256,38 @@
 
 <div class="scene">
 
+  <div class="art">
   <!-- Picnic scene (transparent sky lets sunset show through) -->
   <img class="picnic-bg" src="images/background.png" alt="">
+
+  <!-- Sunset overlay — fades in on cloud tap -->
+  <div class="sunset-overlay" id="sunset-overlay"></div>
+
+  <!-- Sparkle tap indicators -->
+  <div class="sparkle" id="spark-tea">✦</div>
+  <div class="sparkle" id="spark-cap">✦</div>
+  <div class="sparkle" id="spark-nb">✦</div>
+
+  <!-- Silver cloud sparkles -->
+  <div class="sparkle-silver" id="spark-cloud-a">✦</div>
+  <div class="sparkle-silver" id="spark-cloud-b">✦</div>
+  <div class="sparkle-silver" id="spark-cloud-c">✦</div>
+
+  <!-- Invisible click zones -->
+  <div class="item" id="item-nb"  data-popup="popup-nb"></div>
+  <div class="item" id="item-cap" data-popup="popup-cap"></div>
+  <div class="item" id="item-tea" data-popup="popup-tea"></div>
+  <div class="item" id="item-cloud"></div>
+  </div>
+
+  <!-- Name overlay -->
+  <div class="name-block">
+    <span class="english-name">Shinmon Nanda</span>
+    <span class="burmese-name">သျှင်မွန်နန္ဒ</span>
+    <a class="name-email" href="mailto:shinmon.nanda@gmail.com">
+      <svg width="11" height="9" viewBox="0 0 22 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;margin-bottom:1px;opacity:0.9"><rect x="1" y="1" width="20" height="15" rx="2"/><polyline points="1,1 11,10 21,1"/></svg>shinmon.nanda@gmail.com
+    </a>
+  </div>
 
   <!-- Popups: pinned sticky note annotations -->
   <div class="popup" id="popup-tea">
@@ -239,34 +308,6 @@
       <p>NGO &amp; public policy — from USABC to HIAS, working at the intersection of community, advocacy, and social impact.</p>
     </div>
   </div>
-
-  <!-- Name overlay -->
-  <div class="name-block">
-    <span class="english-name">Shinmon Nanda</span>
-    <span class="burmese-name">သျှင်မွန်နန္ဒ</span>
-    <a class="name-email" href="mailto:shinmon.nanda@gmail.com">
-      <svg width="11" height="9" viewBox="0 0 22 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;margin-bottom:1px;opacity:0.9"><rect x="1" y="1" width="20" height="15" rx="2"/><polyline points="1,1 11,10 21,1"/></svg>shinmon.nanda@gmail.com
-    </a>
-  </div>
-
-  <!-- Sunset overlay — fades in on cloud tap -->
-  <div class="sunset-overlay" id="sunset-overlay"></div>
-
-  <!-- Sparkle tap indicators -->
-  <div class="sparkle" id="spark-tea">✦</div>
-  <div class="sparkle" id="spark-cap">✦</div>
-  <div class="sparkle" id="spark-nb">✦</div>
-
-  <!-- Silver cloud sparkles -->
-  <div class="sparkle-silver" id="spark-cloud-a">✦</div>
-  <div class="sparkle-silver" id="spark-cloud-b">✦</div>
-  <div class="sparkle-silver" id="spark-cloud-c">✦</div>
-
-  <!-- Invisible click zones -->
-  <div class="item" id="item-nb"  data-popup="popup-nb"></div>
-  <div class="item" id="item-cap" data-popup="popup-cap"></div>
-  <div class="item" id="item-tea" data-popup="popup-tea"></div>
-  <div class="item" id="item-cloud" style="width:140px;height:120px;top:8%;left:0%"></div>
 
 </div>
 
