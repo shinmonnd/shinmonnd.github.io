@@ -34,12 +34,14 @@
         transform: scale(1.04);
       }
       .art {
-        width: auto;
-        height: min(100%, 151.5vw);
+        /* Width-driven sizing: percentages of the flex container's width
+           always resolve; the vh cap keeps the column within the viewport
+           height. The aspect ratio derives the height. */
+        width: min(100%, 66.02vh);
         aspect-ratio: 1082 / 1639;
         flex-shrink: 0;
       }
-      .picnic-bg { top: 0; height: 100%; }
+      .picnic-bg { top: 0; }
       /* Tap zones & sparkles, converted from the 844px-tall composition
          to artwork-relative percentages */
       #item-tea   { top: 43.36%; left: 10%; width: 33%;    height: 15.85%; }
