@@ -68,6 +68,13 @@
       width: 140px; height: 120px;
       top: 8%; left: 0;
     }
+    /* Phone tap zone over the iPod baked into the background art.
+       Art is 1082×1639 shown at full width, offset top:60px:
+       iPod sits at x 12–36%, y 68–83% of the image. */
+    #item-ipod-m {
+      width: 23.6%; height: 22.2vw;
+      top: calc(60px + 103vw); left: 12%;
+    }
 
     /* ── POPUP ───────────────────────────────── */
     .popup {
@@ -108,6 +115,20 @@
       line-height: 1.6;
       text-align: center;
     }
+    /* iPod music card — dark Spotify-style player, not the wax-seal letter */
+    .popup-music {
+      background: #191414;
+      border-radius: 16px;
+      padding: 20px 16px 14px;
+      min-height: 0;
+    }
+    .popup-music h3 {
+      font-family: -apple-system, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .popup-music .sp-hint { color: #b3b3b3; }
     /* ── SPARKLE INDICATORS ─────────────────── */
     .sparkle {
       position: absolute;
@@ -321,8 +342,8 @@
         50%      { transform: translateY(-7px) scale(1.12); }
       }
       /* iPod music card */
+      /* iPod music card sizing (look defined in base CSS) */
       #popup-ipod { width: 300px; }
-      .popup-music { padding-top: 78px; }
       .sp-embed iframe { width: 100%; height: 152px; border: 0; border-radius: 12px; display: block; }
       .sp-hint { margin-top: 8px; font-size: 11px; opacity: 0.7; }
       .w-item .item { position: absolute; inset: 6% 4%; }
@@ -377,6 +398,7 @@
   <div class="item" id="item-nb"  data-popup="popup-nb"></div>
   <div class="item" id="item-cap" data-popup="popup-cap"></div>
   <div class="item" id="item-tea" data-popup="popup-tea"></div>
+  <div class="item" id="item-ipod-m" data-popup="popup-ipod" title="Play music"></div>
   <div class="item item-cloud" id="item-cloud"></div>
   </div>
 
