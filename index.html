@@ -290,6 +290,19 @@
       .w-tea { left: 7.8%;  top: 43%; width: 20.8%; }
       .w-nb  { left: 38%;   top: 50%; width: 27.1%; }
       .w-cap { left: 69.3%; top: 39%; width: 22.4%; }
+      /* iPod + earbuds, cropped from the composite with soft feathered
+         edges so its grass patch melts into the wide grass */
+      .w-ipod {
+        position: absolute; left: 4.5%; top: 80%; width: 12%;
+        aspect-ratio: 255 / 240; overflow: hidden; z-index: 3;
+        -webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 75%);
+        mask-image: radial-gradient(ellipse at center, black 50%, transparent 75%);
+      }
+      .w-ipod img {
+        width: 424.31%; display: block; pointer-events: none;
+        margin-left: -50.98%; margin-top: -437.27%;
+        filter: brightness(0.9) saturate(1.06) drop-shadow(0 10px 14px rgba(60,50,30,0.25));
+      }
       .w-item .item { position: absolute; inset: 6% 4%; }
       .w-cloud .item-cloud { position: absolute; inset: 0; }
       /* Sparkles sit on the items */
@@ -376,6 +389,10 @@
       <img src="images/cap.png" alt="Columbia cap">
       <div class="item" data-popup="popup-cap"></div>
       <div class="sparkle w-spark-cap">✦</div>
+    </div>
+
+    <div class="w-ipod">
+      <img src="images/background.png" alt="iPod with earphones">
     </div>
   </div>
 
