@@ -289,18 +289,17 @@
           linear-gradient(100deg, transparent 70%, rgba(255,255,255,0.08) 82%, transparent 94%),
           linear-gradient(to bottom, transparent 84%, rgba(30,45,90,0.20) 95%, rgba(25,40,80,0.32) 100%);
       }
-      /* Grass: clean painted strip cropped from the composite.
-         Slightly softened to hide upscale pixelation. Wavy top edge so the
+      /* Grass: dedicated HD strip (2x source). Wavy top edge so the
          blanket tucks naturally underneath it. */
       .w-grass {
         position: absolute; top: 81%; left: 0; right: 0;
-        aspect-ratio: 1082 / 219; overflow: hidden; z-index: 1;
+        aspect-ratio: 2164 / 438; overflow: hidden; z-index: 1;
         -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,8 C20,2 35,2 50,8 C65,14 80,14 100,6 L100,100 L0,100 Z' fill='black'/%3E%3C/svg%3E");
         mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,8 C20,2 35,2 50,8 C65,14 80,14 100,6 L100,100 L0,100 Z' fill='black'/%3E%3C/svg%3E");
         -webkit-mask-size: 100% 100%;
         mask-size: 100% 100%;
       }
-      .w-grass img { width: 100%; display: block; margin-top: -131.24%; filter: blur(1.5px); }
+      .w-grass img { width: 100%; display: block; }
       .w-grass::after {
         content: "";
         position: absolute; inset: 0; pointer-events: none;
@@ -408,7 +407,7 @@
   <div class="wide">
     <div class="w-sky"></div>
     <div class="w-blanket"><img src="images/blanket.jpg" alt=""></div>
-    <div class="w-grass"><img src="images/background.png" alt=""></div>
+    <div class="w-grass"><img src="images/grass-hd.jpg" alt=""></div>
 
     <!-- Sunset overlay — fades in on cloud tap -->
     <div class="sunset-overlay sunset-wide"></div>
@@ -546,7 +545,7 @@
     // the music keeps going when the card closes, until the iPod is
     // tapped again.
     const LINGER_VIDEO_ID = 'G6Kspj3OO0s'; // The Cranberries – Linger (4K Official Music Video)
-    let ytPlayer = null, ipodPlaying = false, pendingPlay = false, ytReady = false;
+    let ytPlayer = null, ipodPlaying = false, pendingPlay = false, pendingInit = false, ytReady = false, apiLoaded = false;
     window.__ipod = { apiLoaded: false, playerReady: false, playing: false, lastError: null };
     function setIpodBadge(on) {
       const b = document.getElementById('w-playing');
@@ -557,13 +556,14 @@
       try { ytPlayer.playVideo(); }
       catch (err) { window.__ipod.lastError = String((err && err.message) || err); }
     }
-    window.onYouTubeIframeAPIReady = function () {
-      window.__ipod.apiLoaded = true;
+    function initPlayer() {
+      // Built at tap time, while the card is visible, with autoplay baked in —
+      // the play intent is registered inside the real user gesture.
       ytPlayer = new YT.Player('yt-embed', {
         width: '100%',
         height: '120',
         videoId: LINGER_VIDEO_ID,
-        playerVars: { rel: 0, playsinline: 1 },
+        playerVars: { rel: 0, playsinline: 1, autoplay: 1 },
         events: {
           onReady: function () {
             ytReady = true;
@@ -583,6 +583,11 @@
           onError: function (e) { window.__ipod.lastError = 'yt error ' + e.data; }
         }
       });
+    }
+    window.onYouTubeIframeAPIReady = function () {
+      apiLoaded = true;
+      window.__ipod.apiLoaded = true;
+      if (pendingInit) { pendingInit = false; initPlayer(); }
     };
     function onIpodTap(e) {
       e.stopPropagation();
@@ -596,12 +601,16 @@
         popup.classList.remove('show');
         allSparkles().forEach(s => s.classList.remove('hidden'));
       } else {
-        // Tap → show the card and start playing
+        // Tap → show the card and start playing (build the player now,
+        // inside this real tap gesture, so playback is allowed)
         document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
         positionPopup(e.currentTarget, popup);
         popup.classList.add('show');
         allSparkles().forEach(s => s.classList.add('hidden'));
-        ipodPlay();
+        if (!ytPlayer) {
+          if (apiLoaded) initPlayer();
+          else pendingInit = true; // API still loading — build as soon as ready
+        } else ipodPlay();
       }
     }
     document.getElementById('item-ipod').addEventListener('click', onIpodTap);
