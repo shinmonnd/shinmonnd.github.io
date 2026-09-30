@@ -511,6 +511,9 @@
     const gap = 12;
     const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
     let top = rect.bottom + gap;
+    // No room below (e.g. the iPod near the bottom edge) → open above the
+    // item instead, so the popup never covers its own tap target.
+    if (top + popupH > vh - 10) top = rect.top - popupH - gap;
     top = Math.max(10, Math.min(top, vh - popupH - 10));
     popup.style.top = top + 'px';
   }
